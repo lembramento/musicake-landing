@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Musicake — landing wireframe (print)</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Print-friendly overrides */
+  body { background: var(--paper); }
+  /* Hide tweaks UI and floating panels */
+  .sk-var-tabs { display: none !important; }
+  .twk-host, .twk-toggle, .twk-panel, [class^="twk-"] { display: none !important; }
+
+  /* Each variation starts on a new page */
+  .sk-variation { break-before: page; page-break-before: always; }
+  .sk-variation:first-child { break-before: auto; page-break-before: auto; }
+
+  /* Avoid splitting key blocks across pages */
+  .sk-section, .sk-product, .sk-aud-card, .sk-baking-step, .sk-quote, .sk-plate-mock, .sk-faq-row,
+  .sk-how-stack-row, .sk-how-wide, .sk-path-card, .sk-combo-card, .sk-var-label, .sk-final {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Hero — keep it as a unit */
+  .sk-hero { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Subtle paper background still prints, force exact colors */
+  html, body, * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  @media print {
+    @page { size: A4; margin: 1cm; }
+    body::before, body::after { display: none !important; }
+    .sk-section { padding: 36px 36px; }
+    .sk-nav { padding: 16px 36px; }
+    .sk-var-label { padding: 16px 36px 6px; }
+    .sk-footer { padding: 20px 36px; }
+    /* Prevent box-shadow ink */
+    .sk-box.sk-thick { box-shadow: 3px 3px 0 rgba(26,24,22,0.12); }
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="content.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="sections.jsx"></script>
+<script type="text/babel" src="variations.jsx"></script>
+
+<script type="text/babel">
+  // Print-mode app: render all 3 variations stacked, PT, default hook + phones layout, with testimonials.
+  const { useState } = React;
+  function PrintApp() {
+    const c = window.COPY.pt;
+    const common = { c, hookIdx: 0, sliceLayout: "phones", extras: { testimonials: true, faq: false } };
+    return (
+      <div className="sk-variations-stage">
+        <VariationOne {...common} />
+        <VariationTwo {...common} />
+        <VariationThree {...common} />
+      </div>
+    );
+  }
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(<PrintApp />);
+
+  // Auto-print once fonts and React have settled
+  (async () => {
+    try { await document.fonts.ready; } catch (e) {}
+    // Give React + assets time to lay out, then print
+    setTimeout(() => { window.print(); }, 900);
+  })();
+</script>
+</body>
+</html>
