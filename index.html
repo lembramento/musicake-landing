@@ -141,6 +141,7 @@ a { color: inherit; text-decoration: none; }
 .hf-step-art { margin-top: auto; width: 100%; display: flex; align-items: center; justify-content: center; padding-top: 12px; }
 .hf-step-mockup-img { width: 100%; max-width: 180px; height: auto; display: block; filter: drop-shadow(0 12px 30px rgba(0,0,0,0.55)); }
 @media (max-width: 720px) { .hf-step-mockup-img { max-width: 160px; } }
+.hf-laptop-mockup-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .hf-phone-frame { position: relative; width: 100%; max-width: 180px; aspect-ratio: 9 / 18.5; background: #0d0716; border: 2px solid var(--border-strong); border-radius: 32px; padding: 14px 10px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 12px 30px rgba(0,0,0,0.55); }
 .hf-phone-frame::before { content: ""; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 56px; height: 6px; background: #050208; border-radius: 0 0 8px 8px; z-index: 2; }
@@ -851,7 +852,7 @@ function SliceSection({ lang }) {
                   {flow === "mobile" ? (
                     <img className="hf-step-mockup-img" src={`slice-step${s.n}.png`} alt={`passo ${s.n}`} />
                   ) : (
-                    <div className="hf-laptop-frame"><div className="hf-laptop-screen"><div className="hf-laptop-screen-inner"><DesktopStepArt step={s.n}/></div></div><div className="hf-laptop-base"/></div>
+                    <div className="hf-laptop-frame"><div className="hf-laptop-screen"><div className="hf-laptop-screen-inner"><img className="hf-laptop-mockup-img" src={`slice-desktop-step${s.n}.svg`} alt={`passo ${s.n}`} /></div></div><div className="hf-laptop-base"/></div>
                   )}
                 </div>
               </div>
