@@ -828,7 +828,7 @@ function SliceSection({ lang }) {
         <div className="hf-product-section-how" id="how">
           <div className="hf-product-section-how-head">
             <div>
-              <span className="hf-eyebrow with-dot">{c.howSliceKicker}</span>
+              {c.howSliceKicker && <span className="hf-eyebrow with-dot">{c.howSliceKicker}</span>}
               <h3 className="hf-product-section-how-title">{c.howSliceTitle}</h3>
             </div>
           </div>
@@ -947,7 +947,7 @@ function BakingSection({ lang }) {
         <div className="hf-product-section-how">
           <div className="hf-product-section-how-head">
             <div>
-              <span className="hf-eyebrow with-dot">{c.howBakingKicker}</span>
+              {c.howBakingKicker && <span className="hf-eyebrow with-dot">{c.howBakingKicker}</span>}
               <h3 className="hf-product-section-how-title">{c.howBakingTitle}</h3>
             </div>
           </div>
