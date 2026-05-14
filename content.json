@@ -20,7 +20,11 @@
   "heroHooks": [
     {
       "kicker": "",
-      "title": ["Música boa", "merece ser", "compartilhada"],
+      "title": [
+        "Música boa",
+        "merece ser",
+        "compartilhada"
+      ],
       "sub": "Musicake ajuda artistas e ouvintes a compartilhar músicas de forma mais simples, universal e significativa."
     }
   ],
@@ -48,54 +52,132 @@
       "preview no próprio link"
     ]
   },
-  "audienceTitle": ["Feito para quem", "ama música", "de verdade."],
-  "audiences": [
-    { "name": "Os melhores ouvintes", "desc": "Aqueles que mandam música pros amigos sem se importar com a plataforma de cada um." },
-    { "name": "Artistas independentes", "desc": "Que querem lançar com menos fricção e mais conexão direta com o público." },
-    { "name": "Curadores e criadores", "desc": "Que constroem playlists, posts e recomendações que precisam viver fora da bolha de uma plataforma." },
-    { "name": "Blogs, selos e comunidades", "desc": "Que querem páginas musicais mais ricas, bonitas e úteis pra sua audiência." }
+  "audienceTitle": [
+    "Feito para quem",
+    "ama música",
+    "de verdade."
   ],
-  "howSliceKicker": "como funciona — Slice",
+  "audiences": [
+    {
+      "name": "Os melhores ouvintes",
+      "desc": "Aqueles que mandam música pros amigos sem se importar com a plataforma de cada um."
+    },
+    {
+      "name": "Artistas independentes",
+      "desc": "Que querem lançar com menos fricção e mais conexão direta com o público."
+    },
+    {
+      "name": "Curadores e criadores",
+      "desc": "Que constroem playlists, posts e recomendações que precisam viver fora da bolha de uma plataforma."
+    },
+    {
+      "name": "Blogs, selos e comunidades",
+      "desc": "Que querem páginas musicais mais ricas, bonitas e úteis pra sua audiência."
+    }
+  ],
+  "howSliceKicker": "Como funciona",
   "howSliceTitle": "Como compartilhar uma música em 3 passos",
   "howSlice": [
-    { "n": 1, "label": "Aperte o botão de compartilhar em qualquer plataforma" },
-    { "n": 2, "label": "Selecione o app Musicake na lista do seu dispositivo" },
-    { "n": 3, "label": "Musicake cria automaticamente um link com acesso à música em todas as plataformas" }
+    {
+      "n": 1,
+      "label": "Aperte o botão de compartilhar em qualquer plataforma"
+    },
+    {
+      "n": 2,
+      "label": "Selecione o app Musicake na lista do seu dispositivo"
+    },
+    {
+      "n": 3,
+      "label": "Musicake cria automaticamente um link com acesso à música em todas as plataformas"
+    }
   ],
   "howSliceDesktop": [
-    { "n": 1, "label": "Instale a extensão Musicake no seu navegador. Funciona com Chrome, Arc, Edge e Firefox." },
-    { "n": 2, "label": "Ouça música em qualquer plataforma. O ícone da Musicake aparece direto na interface." },
-    { "n": 3, "label": "Clique no ícone e a Musicake gera um link universal pronto pra enviar." }
+    {
+      "n": 1,
+      "label": "Instale a extensão Musicake no seu navegador. Funciona com Chrome, Arc, Edge e Firefox."
+    },
+    {
+      "n": 2,
+      "label": "Ouça música em qualquer plataforma. O ícone da Musicake aparece direto na interface."
+    },
+    {
+      "n": 3,
+      "label": "Clique no ícone e a Musicake gera um link universal pronto pra enviar."
+    }
   ],
-  "howSliceTabs": { "mobile": "📱 no celular", "desktop": "💻 no navegador" },
-  "howBakingKicker": "como funciona — Baking",
+  "howSliceTabs": {
+    "mobile": "📱 no celular",
+    "desktop": "💻 no navegador"
+  },
+  "howBakingKicker": "Como?",
   "howBakingTitle": "Como lançar uma música em 4 movimentos.",
   "howBaking": [
-    { "n": 1, "label": "Crie a sua página de lançamento.\n\nSeu 'Plate' no Musicake." },
-    { "n": 2, "label": "Envie pra todo mundo. Quem recebe só precisa deixar e-mail ou WhatsApp. Sem login, sem chatice." },
-    { "n": 3, "label": "Seus fãs recebem uma notificação no dia do lançamento com um link para seu Plate." },
-    { "n": 4, "label": "Seu Plate personalizado contém links para audição, release e área de interação para os fãs." }
+    {
+      "n": 1,
+      "label": "Crie a sua página de lançamento.\n\nSeu 'Plate' no Musicake."
+    },
+    {
+      "n": 2,
+      "label": "Envie pra todo mundo. Quem recebe só precisa deixar e-mail ou WhatsApp. Sem login, sem chatice."
+    },
+    {
+      "n": 3,
+      "label": "Seus fãs recebem uma notificação no dia do lançamento com um link para seu Plate."
+    },
+    {
+      "n": 4,
+      "label": "Seu Plate personalizado contém links para audição, release e área de interação para os fãs."
+    }
   ],
   "manifestoBlock": {
     "kicker": "nossa crença",
-    "title": ["A música", "merece", "mais."],
+    "title": [
+      "A música",
+      "merece",
+      "mais."
+    ],
     "body": "Música é experiência, significado e conexão.\nNão deveria ser tratada como conteúdo.\nMusicake existe pra devolver cuidado e intenção à forma como as músicas circulam."
   },
   "finalKicker": "entre primeiro",
-  "finalTitle": ["Vamos compartilhar", "música de", "um jeito novo."],
+  "finalTitle": [
+    "Vamos compartilhar",
+    "música de",
+    "um jeito novo."
+  ],
   "finalSub": "Estamos em fase de testes com as primeiras pessoas — ouvintes, artistas, curadores e selos. Deixe seu e-mail e te avisamos quando for sua vez.",
   "faqKicker": "perguntas que ouvimos sempre",
   "faq": [
-    { "q": "Preciso pagar pra usar?", "a": "O Slice será gratuito pra ouvintes. Pra artistas, teremos um plano gratuito generoso e um plano pago com mais recursos de lançamento." },
-    { "q": "Funciona com qualquer plataforma?", "a": "Sim — Spotify, Apple Music, Deezer, YouTube Music, Tidal e outras principais. Vamos crescendo a lista." },
-    { "q": "Como vocês ganham dinheiro?", "a": "Com planos pra artistas e selos. Nunca vendendo dado de ouvinte, nunca prendendo música atrás de paywall." },
-    { "q": "Quando lança?", "a": "Estamos em beta fechado em 2026. Entrando na lista, você é avisado primeiro." }
+    {
+      "q": "Preciso pagar pra usar?",
+      "a": "O Slice será gratuito pra ouvintes. Pra artistas, teremos um plano gratuito generoso e um plano pago com mais recursos de lançamento."
+    },
+    {
+      "q": "Funciona com qualquer plataforma?",
+      "a": "Sim — Spotify, Apple Music, Deezer, YouTube Music, Tidal e outras principais. Vamos crescendo a lista."
+    },
+    {
+      "q": "Como vocês ganham dinheiro?",
+      "a": "Com planos pra artistas e selos. Nunca vendendo dado de ouvinte, nunca prendendo música atrás de paywall."
+    },
+    {
+      "q": "Quando lança?",
+      "a": "Estamos em beta fechado em 2026. Entrando na lista, você é avisado primeiro."
+    }
   ],
   "testimonialsKicker": "primeiras vozes",
   "testimonials": [
-    { "quote": "Finalmente consigo mandar uma música pro meu pai sem perguntar 'você usa qual?'", "author": "Marina · ouvinte beta" },
-    { "quote": "É a primeira ferramenta de lançamento que parece pensada pelo artista, não pela plataforma.", "author": "Léo Brandt · produtor" },
-    { "quote": "Meu blog precisa disso. Linkar uma música é sempre um pesadelo.", "author": "Coletivo Pulso · curadoria" }
+    {
+      "quote": "Finalmente consigo mandar uma música pro meu pai sem perguntar 'você usa qual?'",
+      "author": "Marina · ouvinte beta"
+    },
+    {
+      "quote": "É a primeira ferramenta de lançamento que parece pensada pelo artista, não pela plataforma.",
+      "author": "Léo Brandt · produtor"
+    },
+    {
+      "quote": "Meu blog precisa disso. Linkar uma música é sempre um pesadelo.",
+      "author": "Coletivo Pulso · curadoria"
+    }
   ],
   "footer": "Musicake · uma camada gostosa entre artistas, ouvintes e plataformas · 2026"
 }
