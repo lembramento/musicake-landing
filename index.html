@@ -500,9 +500,10 @@ function Avatar({ initials = "M", size = 36, idx = 0 }) {
 }
 
 function Logo({ size = 28 }) {
+  const src = (COPY.pt._meta && COPY.pt._meta.logo) || "musicake_wt.png";
   return (
     <a className="hf-logo" href="#top">
-      <img src="musicake_wt.png" alt="Musicake" style={{ height: size * 1.05, width: "auto", display: "block" }} />
+      <img src={src} alt="Musicake" style={{ height: size * 1.05, width: "auto", display: "block" }} />
     </a>
   );
 }
@@ -786,6 +787,7 @@ function HeroHi({ lang, onScrollTo }) {
   return (
     <section className="hf-section hf-hero">
       <div className="hf-hero-text">
+        {hook.kicker && <span className="hf-eyebrow-pill"><span className="dot"/>{hook.kicker}</span>}
         <h1 className="hf-h1"><Headline lines={hook.title} gradLine={1}/></h1>
         <p className="hf-sub">{hook.sub}</p>
         <div className="hf-hero-actions">
@@ -1103,6 +1105,8 @@ function FooterHi({ lang }) {
 // ── App ───────────────────────────────────────────────────────────────────────
 function App() {
   const lang = "pt";
+  const sections = (COPY.pt._meta && COPY.pt._meta.sections) || {};
+  const show = (key) => sections[key] !== false;
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1111,20 +1115,32 @@ function App() {
     <div>
       <NavHi lang={lang} onScrollTo={scrollTo}/>
       <HeroHi lang={lang} onScrollTo={scrollTo}/>
-      <SliceSection lang={lang}/>
-      <BakingSection lang={lang}/>
-      <AudienceHi lang={lang}/>
-      <ManifestoHi lang={lang}/>
-      <TestimonialsHi lang={lang}/>
-      <FAQHi lang={lang}/>
-      <FinalCTAHi lang={lang}/>
+      {show("slice") && <SliceSection lang={lang}/>}
+      {show("baking") && <BakingSection lang={lang}/>}
+      {show("audience") && <AudienceHi lang={lang}/>}
+      {show("manifesto") && <ManifestoHi lang={lang}/>}
+      {show("testimonials") && <TestimonialsHi lang={lang}/>}
+      {show("faq") && <FAQHi lang={lang}/>}
+      {show("finalCta") && <FinalCTAHi lang={lang}/>}
       <FooterHi lang={lang}/>
     </div>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App/>);
+// Load content.json overrides before rendering. If fetch fails, fall back to inline COPY.
+(async function bootstrap() {
+  try {
+    const res = await fetch("content.json", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      Object.assign(COPY.pt, data);
+    }
+  } catch (err) {
+    console.warn("content.json load failed, using defaults:", err);
+  }
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(<App/>);
+})();
 </script>
 </body>
 </html>

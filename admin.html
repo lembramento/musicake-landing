@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Musicake · Painel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #0B0810;
+  --bg-1: #130C1E;
+  --bg-2: #1A1228;
+  --surface: #221833;
+  --surface-2: #2D2240;
+  --border: #3A2D52;
+  --border-strong: #4D3B68;
+  --text: #F5F1FA;
+  --text-muted: #B2A8C8;
+  --text-faint: #7C7194;
+  --coral: #FF8B96;
+  --pink: #FF5E96;
+  --magenta: #E94E9D;
+  --purple: #A346C2;
+  --grad: linear-gradient(135deg, #FF8B96 0%, #E94E9D 48%, #A346C2 100%);
+  --ok: #4ECDB8;
+  --err: #FF6B6B;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; line-height: 1.5; }
+body { min-height: 100vh; }
+a { color: inherit; }
+
+.wrap { max-width: 980px; margin: 0 auto; padding: 32px 24px 120px; }
+header.bar { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid var(--border); background: rgba(11,8,16,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+header.bar h1 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+header.bar h1 span.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+header.bar .actions { display: flex; gap: 10px; align-items: center; }
+
+button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 10px 18px; font-weight: 600; font-size: 14px; border: 1px solid transparent; transition: transform 120ms, box-shadow 180ms, background 180ms, border-color 180ms; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--grad); color: white; box-shadow: 0 6px 18px rgba(233,78,157,0.3), inset 0 1px 0 rgba(255,255,255,0.2); }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(233,78,157,0.45); }
+.btn-ghost { background: rgba(255,255,255,0.02); border-color: var(--border); color: var(--text); }
+.btn-ghost:hover:not(:disabled) { border-color: var(--border-strong); background: rgba(255,255,255,0.05); }
+.btn-danger { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.3); color: var(--err); }
+.btn-danger:hover:not(:disabled) { background: rgba(255,107,107,0.2); }
+
+.card { border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, var(--surface), var(--bg-1)); padding: 22px 22px 24px; margin: 18px 0; }
+.card h2 { margin: 0 0 6px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+.card h2 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--magenta); box-shadow: 0 0 10px rgba(233,78,157,0.8); }
+.card p.help { color: var(--text-faint); font-size: 13px; margin: 0 0 16px; }
+
+label.field { display: block; margin: 14px 0; }
+label.field > span.lab { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; text-transform: lowercase; }
+input[type="text"], input[type="password"], textarea {
+  width: 100%; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 14px; color: var(--text); font-family: inherit; font-size: 15px; line-height: 1.45;
+  transition: border-color 160ms, box-shadow 160ms;
+}
+input:focus, textarea:focus { outline: none; border-color: rgba(233,78,157,0.5); box-shadow: 0 0 0 4px rgba(233,78,157,0.1); }
+textarea { resize: vertical; min-height: 72px; font-family: inherit; }
+
+.row { display: flex; gap: 12px; align-items: flex-start; }
+.row > * { flex: 1; }
+
+.toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.toggle input { display: none; }
+.toggle .track { width: 38px; height: 22px; border-radius: 999px; background: var(--bg-2); border: 1px solid var(--border); position: relative; transition: background 180ms, border-color 180ms; }
+.toggle .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--text-muted); transition: transform 180ms, background 180ms; }
+.toggle input:checked + .track { background: var(--grad); border-color: transparent; }
+.toggle input:checked + .track::after { transform: translateX(16px); background: white; }
+.toggle .label { font-size: 14px; color: var(--text); }
+
+.list-item { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin: 10px 0; background: rgba(0,0,0,0.18); }
+.list-item .item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 10px; }
+.list-item .item-head .idx { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+.list-item .item-head .ops { display: flex; gap: 6px; }
+.list-item .item-head .ops button { padding: 4px 10px; font-size: 12px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-muted); }
+.list-item .item-head .ops button:hover:not(:disabled) { color: var(--text); border-color: var(--border-strong); }
+
+.array-strings .str-row { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+.array-strings .str-row input { flex: 1; }
+.array-strings .str-row button { padding: 6px 10px; font-size: 12px; border-radius: 6px; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.25); color: var(--err); }
+
+.add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 12px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-muted); margin-top: 8px; }
+.add-btn:hover { color: var(--text); border-color: var(--border-strong); }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 500; z-index: 100; box-shadow: 0 8px 28px rgba(0,0,0,0.5); border: 1px solid var(--border); }
+.toast.ok { background: rgba(78,205,184,0.15); border-color: rgba(78,205,184,0.4); color: var(--ok); }
+.toast.err { background: rgba(255,107,107,0.15); border-color: rgba(255,107,107,0.4); color: var(--err); }
+.toast.info { background: var(--surface); color: var(--text-muted); }
+
+.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.login-box { width: 100%; max-width: 380px; padding: 28px; border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, var(--surface), var(--bg-1)); text-align: center; }
+.login-box h1 { margin: 0 0 6px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.login-box h1 span.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.login-box p.help { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; }
+.login-box input { margin-bottom: 14px; }
+.login-box button.btn-primary { width: 100%; padding: 12px; }
+.login-box .err { color: var(--err); font-size: 13px; min-height: 20px; margin-top: 8px; }
+
+.logo-row { display: flex; align-items: center; gap: 16px; }
+.logo-preview { width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px; }
+.logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.file-input-wrap { flex: 1; }
+.file-input-wrap input[type="file"] { display: none; }
+.file-input-wrap label.fakebtn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text); font-size: 14px; font-weight: 500; cursor: pointer; }
+.file-input-wrap label.fakebtn:hover { border-color: var(--border-strong); background: rgba(255,255,255,0.07); }
+.file-input-wrap p.fname { color: var(--text-faint); font-size: 12px; margin: 6px 0 0; font-family: 'JetBrains Mono', monospace; }
+
+.preview-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); }
+.preview-link:hover { color: var(--text); border-color: var(--border-strong); }
+
+.kicker-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect, useCallback, useRef } = React;
+
+const PASSWORD_KEY = "musicake_admin_pwd";
+const DRAFT_KEY = "musicake_admin_draft";
+
+function utf8ToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const result = r.result;
+      const comma = result.indexOf(",");
+      resolve(result.slice(comma + 1));
+    };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── Login ─────────────────────────────────────────────────────────────────────
+function Login({ onAuth }) {
+  const [pwd, setPwd] = useState("");
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function submit(e) {
+    e.preventDefault();
+    if (!pwd) return;
+    setBusy(true);
+    setErr("");
+    try {
+      // Test the password by trying a no-op save (empty files array → 400, but auth checked first)
+      const res = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: pwd, files: [] }),
+      });
+      if (res.status === 401) {
+        setErr("Senha incorreta.");
+        setBusy(false);
+        return;
+      }
+      // 400 (missing files) or 200 both mean password is OK
+      localStorage.setItem(PASSWORD_KEY, pwd);
+      onAuth(pwd);
+    } catch (e) {
+      setErr("Erro de conexão: " + e.message);
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="login-wrap">
+      <form className="login-box" onSubmit={submit}>
+        <h1>Painel <span className="grad">Musicake</span></h1>
+        <p className="help">Entre com a senha de admin pra editar o site.</p>
+        <input type="password" placeholder="senha" value={pwd} onChange={e => setPwd(e.target.value)} autoFocus />
+        <button className="btn-primary" type="submit" disabled={busy || !pwd}>{busy ? "verificando…" : "entrar"}</button>
+        <div className="err">{err}</div>
+      </form>
+    </div>
+  );
+}
+
+// ── Generic field helpers ─────────────────────────────────────────────────────
+function TextField({ label, value, onChange, type = "text" }) {
+  return (
+    <label className="field">
+      <span className="lab">{label}</span>
+      {type === "textarea"
+        ? <textarea value={value || ""} onChange={e => onChange(e.target.value)} rows={3} />
+        : <input type="text" value={value || ""} onChange={e => onChange(e.target.value)} />}
+    </label>
+  );
+}
+
+function ArrayOfStrings({ label, value, onChange, placeholder }) {
+  const arr = Array.isArray(value) ? value : [];
+  function update(i, v) {
+    const next = arr.slice();
+    next[i] = v;
+    onChange(next);
+  }
+  function add() { onChange([...arr, ""]); }
+  function remove(i) { onChange(arr.filter((_, j) => j !== i)); }
+  return (
+    <div className="field array-strings">
+      <span className="lab">{label}</span>
+      {arr.map((s, i) => (
+        <div className="str-row" key={i}>
+          <input type="text" value={s} placeholder={placeholder} onChange={e => update(i, e.target.value)} />
+          <button type="button" onClick={() => remove(i)}>remover</button>
+        </div>
+      ))}
+      <button type="button" className="add-btn" onClick={add}>+ adicionar</button>
+    </div>
+  );
+}
+
+function ArrayOfObjects({ label, value, onChange, schema, renderLabel }) {
+  // schema is an object of { key: { label, type: "text"|"textarea"|"number" } }
+  const arr = Array.isArray(value) ? value : [];
+  function update(i, key, v) {
+    const next = arr.slice();
+    next[i] = { ...next[i], [key]: v };
+    onChange(next);
+  }
+  function add() {
+    const blank = {};
+    Object.entries(schema).forEach(([k, s]) => { blank[k] = s.type === "number" ? 0 : ""; });
+    onChange([...arr, blank]);
+  }
+  function remove(i) { onChange(arr.filter((_, j) => j !== i)); }
+  function move(i, dir) {
+    const j = i + dir;
+    if (j < 0 || j >= arr.length) return;
+    const next = arr.slice();
+    [next[i], next[j]] = [next[j], next[i]];
+    onChange(next);
+  }
+  return (
+    <div className="field">
+      <span className="lab">{label}</span>
+      {arr.map((item, i) => (
+        <div className="list-item" key={i}>
+          <div className="item-head">
+            <span className="idx">{renderLabel ? renderLabel(item, i) : `Item ${i + 1}`}</span>
+            <div className="ops">
+              <button type="button" onClick={() => move(i, -1)} disabled={i === 0}>↑</button>
+              <button type="button" onClick={() => move(i, 1)} disabled={i === arr.length - 1}>↓</button>
+              <button type="button" onClick={() => remove(i)}>remover</button>
+            </div>
+          </div>
+          {Object.entries(schema).map(([k, s]) => (
+            s.type === "textarea"
+              ? <TextField key={k} label={s.label} value={item[k]} onChange={v => update(i, k, v)} type="textarea" />
+              : s.type === "number"
+                ? <TextField key={k} label={s.label} value={item[k]} onChange={v => update(i, k, parseInt(v, 10) || 0)} />
+                : <TextField key={k} label={s.label} value={item[k]} onChange={v => update(i, k, v)} />
+          ))}
+        </div>
+      ))}
+      <button type="button" className="add-btn" onClick={add}>+ adicionar</button>
+    </div>
+  );
+}
+
+function Toggle({ label, checked, onChange }) {
+  return (
+    <label className="toggle">
+      <input type="checkbox" checked={!!checked} onChange={e => onChange(e.target.checked)} />
+      <span className="track"></span>
+      <span className="label">{label}</span>
+    </label>
+  );
+}
+
+// ── Editor ────────────────────────────────────────────────────────────────────
+function Editor({ password, onLogout }) {
+  const [content, setContent] = useState(null);
+  const [originalContent, setOriginalContent] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [logoFile, setLogoFile] = useState(null);
+  const [logoPreviewUrl, setLogoPreviewUrl] = useState(null);
+  const toastTimer = useRef();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const draft = localStorage.getItem(DRAFT_KEY);
+        const res = await fetch("/content.json?t=" + Date.now(), { cache: "no-store" });
+        const data = await res.json();
+        setOriginalContent(JSON.parse(JSON.stringify(data)));
+        if (draft) {
+          try {
+            const parsed = JSON.parse(draft);
+            setContent(parsed);
+            showToast("Rascunho local restaurado.", "info");
+          } catch { setContent(data); }
+        } else {
+          setContent(data);
+        }
+      } catch (e) {
+        showToast("Erro ao carregar conteúdo: " + e.message, "err");
+      }
+    })();
+  }, []);
+
+  function showToast(msg, kind = "info", ms = 4000) {
+    setToast({ msg, kind });
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(null), ms);
+  }
+
+  function update(path, value) {
+    setContent(prev => {
+      const next = JSON.parse(JSON.stringify(prev));
+      const keys = path.split(".");
+      let obj = next;
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (!(keys[i] in obj)) obj[keys[i]] = {};
+        obj = obj[keys[i]];
+      }
+      obj[keys[keys.length - 1]] = value;
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+      return next;
+    });
+  }
+
+  function onLogoPick(e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    if (!/\.(png|svg|jpg|jpeg|webp)$/i.test(f.name)) {
+      showToast("Use PNG, JPG, SVG ou WEBP.", "err");
+      return;
+    }
+    setLogoFile(f);
+    const url = URL.createObjectURL(f);
+    setLogoPreviewUrl(url);
+  }
+
+  async function save() {
+    if (!content) return;
+    setBusy(true);
+    try {
+      const files = [];
+      let newContent = content;
+
+      if (logoFile) {
+        const safeName = logoFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const b64 = await fileToBase64(logoFile);
+        files.push({ path: safeName, contentBase64: b64 });
+        newContent = JSON.parse(JSON.stringify(content));
+        if (!newContent._meta) newContent._meta = {};
+        newContent._meta.logo = safeName;
+      }
+
+      const contentJsonStr = JSON.stringify(newContent, null, 2) + "\n";
+      files.push({ path: "content.json", contentBase64: utf8ToBase64(contentJsonStr) });
+
+      const res = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password,
+          message: "admin: update site content",
+          files,
+        }),
+      });
+      const body = await res.json();
+      if (!res.ok) {
+        showToast("Erro ao salvar: " + (body.error || res.status), "err", 8000);
+        setBusy(false);
+        return;
+      }
+      setContent(newContent);
+      setOriginalContent(JSON.parse(JSON.stringify(newContent)));
+      setLogoFile(null);
+      setLogoPreviewUrl(null);
+      localStorage.removeItem(DRAFT_KEY);
+      showToast("Salvo! Aguarde ~30s para o site atualizar.", "ok", 6000);
+    } catch (e) {
+      showToast("Erro: " + e.message, "err", 8000);
+    }
+    setBusy(false);
+  }
+
+  function discardDraft() {
+    if (!confirm("Descartar todas as edições não salvas?")) return;
+    localStorage.removeItem(DRAFT_KEY);
+    setContent(JSON.parse(JSON.stringify(originalContent)));
+    setLogoFile(null);
+    setLogoPreviewUrl(null);
+    showToast("Rascunho descartado.", "info");
+  }
+
+  if (!content) return <div style={{ padding: 40, color: "var(--text-muted)" }}>carregando…</div>;
+
+  const sections = (content._meta && content._meta.sections) || {};
+  const logo = (content._meta && content._meta.logo) || "musicake_wt.png";
+  const heroHook = (content.heroHooks && content.heroHooks[0]) || {};
+
+  return (
+    <>
+      <header className="bar">
+        <h1>Painel <span className="grad">Musicake</span></h1>
+        <div className="actions">
+          <a className="preview-link" href="/" target="_blank">ver site ↗</a>
+          <button className="btn-ghost" type="button" onClick={discardDraft}>descartar</button>
+          <button className="btn-primary" type="button" onClick={save} disabled={busy}>{busy ? "salvando…" : "salvar"}</button>
+          <button className="btn-ghost" type="button" onClick={onLogout}>sair</button>
+        </div>
+      </header>
+
+      <div className="wrap">
+
+        <div className="card">
+          <h2><span className="dot"/>Identidade visual</h2>
+          <p className="help">Logo que aparece no topo do site.</p>
+          <div className="logo-row">
+            <div className="logo-preview" style={{ background: "var(--bg)" }}>
+              <img src={logoPreviewUrl || logo} alt="logo" />
+            </div>
+            <div className="file-input-wrap">
+              <label className="fakebtn" htmlFor="logo-up">trocar logo</label>
+              <input id="logo-up" type="file" accept="image/png,image/svg+xml,image/jpeg,image/webp" onChange={onLogoPick} />
+              <p className="fname">{logoFile ? `selecionado: ${logoFile.name}` : `atual: ${logo}`}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Visibilidade das seções</h2>
+          <p className="help">Ligue/desligue cada bloco do site. Mudanças aparecem após salvar.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+            {[
+              ["slice", "Slice (compartilhar música)"],
+              ["baking", "Baking (lançamentos)"],
+              ["audience", "Audiência"],
+              ["manifesto", "Manifesto"],
+              ["testimonials", "Depoimentos"],
+              ["faq", "FAQ"],
+              ["finalCta", "CTA final"],
+            ].map(([key, label]) => (
+              <Toggle key={key} label={label} checked={sections[key] !== false}
+                onChange={v => update(`_meta.sections.${key}`, v)} />
+            ))}
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Navegação</h2>
+          <TextField label="link 'para ouvintes'" value={content.nav?.listen} onChange={v => update("nav.listen", v)} />
+          <TextField label="link 'para artistas'" value={content.nav?.artists} onChange={v => update("nav.artists", v)} />
+          <TextField label="botão lista de espera" value={content.nav?.waitlist} onChange={v => update("nav.waitlist", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Hero (topo)</h2>
+          <TextField label="tag acima do título (deixe vazio pra esconder)" value={heroHook.kicker}
+            onChange={v => {
+              const next = JSON.parse(JSON.stringify(content));
+              if (!next.heroHooks) next.heroHooks = [{}];
+              next.heroHooks[0] = { ...next.heroHooks[0], kicker: v };
+              setContent(next);
+              localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+            }} />
+          <ArrayOfStrings label="título (uma linha por campo)" value={heroHook.title}
+            onChange={v => {
+              const next = JSON.parse(JSON.stringify(content));
+              if (!next.heroHooks) next.heroHooks = [{}];
+              next.heroHooks[0] = { ...next.heroHooks[0], title: v };
+              setContent(next);
+              localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+            }} />
+          <TextField label="subtítulo" value={heroHook.sub} type="textarea"
+            onChange={v => {
+              const next = JSON.parse(JSON.stringify(content));
+              if (!next.heroHooks) next.heroHooks = [{}];
+              next.heroHooks[0] = { ...next.heroHooks[0], sub: v };
+              setContent(next);
+              localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+            }} />
+          <div className="row">
+            <TextField label="texto botão primário" value={content.ctaPrimary} onChange={v => update("ctaPrimary", v)} />
+            <TextField label="texto botão secundário" value={content.ctaSecondary} onChange={v => update("ctaSecondary", v)} />
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Slice (compartilhar)</h2>
+          <div className="row">
+            <TextField label="nome" value={content.slice?.name} onChange={v => update("slice.name", v)} />
+            <TextField label="tag" value={content.slice?.tag} onChange={v => update("slice.tag", v)} />
+          </div>
+          <TextField label="headline" value={content.slice?.headline} onChange={v => update("slice.headline", v)} />
+          <ArrayOfStrings label="bullets" value={content.slice?.bullets} onChange={v => update("slice.bullets", v)} />
+          <TextField label="kicker dos passos" value={content.howSliceKicker} onChange={v => update("howSliceKicker", v)} />
+          <TextField label="título dos passos" value={content.howSliceTitle} onChange={v => update("howSliceTitle", v)} />
+          <ArrayOfObjects label="passos (celular)" value={content.howSlice}
+            schema={{ n: { label: "número", type: "number" }, label: { label: "texto", type: "textarea" } }}
+            renderLabel={(item, i) => `passo ${item.n || i + 1}`}
+            onChange={v => update("howSlice", v)} />
+          <ArrayOfObjects label="passos (navegador)" value={content.howSliceDesktop}
+            schema={{ n: { label: "número", type: "number" }, label: { label: "texto", type: "textarea" } }}
+            renderLabel={(item, i) => `passo ${item.n || i + 1}`}
+            onChange={v => update("howSliceDesktop", v)} />
+          <div className="row">
+            <TextField label="rótulo aba mobile" value={content.howSliceTabs?.mobile} onChange={v => update("howSliceTabs.mobile", v)} />
+            <TextField label="rótulo aba desktop" value={content.howSliceTabs?.desktop} onChange={v => update("howSliceTabs.desktop", v)} />
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Baking (lançamentos)</h2>
+          <div className="row">
+            <TextField label="nome" value={content.baking?.name} onChange={v => update("baking.name", v)} />
+            <TextField label="tag" value={content.baking?.tag} onChange={v => update("baking.tag", v)} />
+          </div>
+          <TextField label="headline" value={content.baking?.headline} onChange={v => update("baking.headline", v)} />
+          <ArrayOfStrings label="bullets" value={content.baking?.bullets} onChange={v => update("baking.bullets", v)} />
+          <TextField label="kicker dos passos" value={content.howBakingKicker} onChange={v => update("howBakingKicker", v)} />
+          <TextField label="título dos passos" value={content.howBakingTitle} onChange={v => update("howBakingTitle", v)} />
+          <ArrayOfObjects label="passos" value={content.howBaking}
+            schema={{ n: { label: "número", type: "number" }, label: { label: "texto", type: "textarea" } }}
+            renderLabel={(item, i) => `passo ${item.n || i + 1}`}
+            onChange={v => update("howBaking", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Audiência</h2>
+          <ArrayOfStrings label="título (uma linha por campo)" value={content.audienceTitle} onChange={v => update("audienceTitle", v)} />
+          <ArrayOfObjects label="grupos" value={content.audiences}
+            schema={{ name: { label: "nome", type: "text" }, desc: { label: "descrição", type: "textarea" } }}
+            renderLabel={item => item.name || "grupo"}
+            onChange={v => update("audiences", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Manifesto</h2>
+          <TextField label="kicker" value={content.manifestoBlock?.kicker} onChange={v => update("manifestoBlock.kicker", v)} />
+          <ArrayOfStrings label="título (uma linha por campo)" value={content.manifestoBlock?.title} onChange={v => update("manifestoBlock.title", v)} />
+          <TextField label="texto" value={content.manifestoBlock?.body} type="textarea" onChange={v => update("manifestoBlock.body", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Depoimentos</h2>
+          <TextField label="kicker" value={content.testimonialsKicker} onChange={v => update("testimonialsKicker", v)} />
+          <ArrayOfObjects label="depoimentos" value={content.testimonials}
+            schema={{ quote: { label: "frase", type: "textarea" }, author: { label: "autor", type: "text" } }}
+            renderLabel={item => item.author || "depoimento"}
+            onChange={v => update("testimonials", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>FAQ</h2>
+          <TextField label="kicker" value={content.faqKicker} onChange={v => update("faqKicker", v)} />
+          <ArrayOfObjects label="perguntas" value={content.faq}
+            schema={{ q: { label: "pergunta", type: "text" }, a: { label: "resposta", type: "textarea" } }}
+            renderLabel={item => item.q || "pergunta"}
+            onChange={v => update("faq", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>CTA final</h2>
+          <TextField label="kicker" value={content.finalKicker} onChange={v => update("finalKicker", v)} />
+          <ArrayOfStrings label="título (uma linha por campo)" value={content.finalTitle} onChange={v => update("finalTitle", v)} />
+          <TextField label="subtítulo" value={content.finalSub} type="textarea" onChange={v => update("finalSub", v)} />
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Rodapé</h2>
+          <TextField label="texto do rodapé" value={content.footer} onChange={v => update("footer", v)} />
+        </div>
+
+      </div>
+
+      {toast && <div className={`toast ${toast.kind}`}>{toast.msg}</div>}
+    </>
+  );
+}
+
+function App() {
+  const [pwd, setPwd] = useState(() => localStorage.getItem(PASSWORD_KEY) || null);
+  function logout() {
+    localStorage.removeItem(PASSWORD_KEY);
+    setPwd(null);
+  }
+  return pwd
+    ? <Editor password={pwd} onLogout={logout} />
+    : <Login onAuth={setPwd} />;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
