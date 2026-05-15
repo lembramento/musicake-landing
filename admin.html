@@ -580,6 +580,7 @@ function Editor({ password, onLogout }) {
             {[
               ["problem", "Problema (chat WhatsApp)"],
               ["slice", "Slice (compartilhar música)"],
+              ["bakingProblem", "Problema do Baking (chat WhatsApp)"],
               ["baking", "Baking (lançamentos)"],
               ["audience", "Audiência"],
               ["manifesto", "Manifesto"],
@@ -678,6 +679,31 @@ function Editor({ password, onLogout }) {
           <div className="row">
             <TextField label="rótulo aba mobile" value={content.howSliceTabs?.mobile} onChange={v => update("howSliceTabs.mobile", v)} />
             <TextField label="rótulo aba desktop" value={content.howSliceTabs?.desktop} onChange={v => update("howSliceTabs.desktop", v)} />
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Problema do Baking (chat WhatsApp)</h2>
+          <p className="help">Seção logo antes do Baking, mesma estrutura visual da seção "Problema". Headline em duas partes, body e bolhas do chat.</p>
+          <TextField label="início do título" value={content.bakingProblem?.titleStart} onChange={v => update("bakingProblem.titleStart", v)} />
+          <TextField label="parte com gradiente (final do título) — deixe vazio se não quiser" value={content.bakingProblem?.titleHighlight} onChange={v => update("bakingProblem.titleHighlight", v)} />
+          <TextField label="texto de apoio" value={content.bakingProblem?.body} type="textarea" onChange={v => update("bakingProblem.body", v)} />
+          <div className="row">
+            <TextField label="título da música (bolha)" value={content.bakingProblem?.chat?.songTitle} onChange={v => update("bakingProblem.chat.songTitle", v)} />
+            <TextField label="artista" value={content.bakingProblem?.chat?.songArtist} onChange={v => update("bakingProblem.chat.songArtist", v)} />
+          </div>
+          <TextField label="host do link" value={content.bakingProblem?.chat?.songHost} onChange={v => update("bakingProblem.chat.songHost", v)} />
+          <div className="row">
+            <TextField label="capa — título" value={content.bakingProblem?.chat?.coverTitle} onChange={v => update("bakingProblem.chat.coverTitle", v)} />
+            <TextField label="capa — artista" value={content.bakingProblem?.chat?.coverArtist} onChange={v => update("bakingProblem.chat.coverArtist", v)} />
+          </div>
+          <div className="row">
+            <TextField label="legenda da mensagem (sua)" value={content.bakingProblem?.chat?.shareCaption} onChange={v => update("bakingProblem.chat.shareCaption", v)} />
+            <TextField label="horário (sua)" value={content.bakingProblem?.chat?.shareTime} onChange={v => update("bakingProblem.chat.shareTime", v)} />
+          </div>
+          <div className="row">
+            <TextField label="resposta (do outro)" value={content.bakingProblem?.chat?.reply} onChange={v => update("bakingProblem.chat.reply", v)} />
+            <TextField label="horário (resposta)" value={content.bakingProblem?.chat?.replyTime} onChange={v => update("bakingProblem.chat.replyTime", v)} />
           </div>
         </div>
 

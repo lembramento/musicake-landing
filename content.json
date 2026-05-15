@@ -3,13 +3,48 @@
     "version": 1,
     "logo": "musicake_wt.png",
     "sections": {
+      "problem": true,
       "slice": true,
+      "bakingProblem": true,
       "baking": true,
       "audience": true,
       "manifesto": true,
       "testimonials": false,
       "faq": false,
       "finalCta": true
+    }
+  },
+  "problem": {
+    "titleStart": "Nem todo mundo ouve música",
+    "titleHighlight": "no mesmo lugar.",
+    "body": "Você já mandou uma música incrível para alguém e ficou no vácuo? Às vezes, o problema não é a música — é o link.",
+    "chat": {
+      "songTitle": "Quase manhã",
+      "songArtist": "Júlia Bandeira",
+      "songHost": "open.spotify.com",
+      "coverTitle": "QUASE MANHÃ",
+      "coverArtist": "JÚLIA BANDEIRA",
+      "shareCaption": "escuta essa 🎶",
+      "shareTime": "14:24",
+      "reply": "mas eu uso youtube music 😕",
+      "replyTime": "14:25"
+    }
+  },
+  "bakingProblem": {
+    "titleStart": "Dê adeus à chatice do pré-save.",
+    "titleHighlight": "",
+    "body": "Lançamentos deveriam aproximar artistas e fãs — não colocar etapas no caminho.",
+    "image": "baking-problem.svg",
+    "chat": {
+      "songTitle": "Maré viva (pré-save)",
+      "songArtist": "Volmério Costa",
+      "songHost": "presave.app",
+      "coverTitle": "MARÉ VIVA",
+      "coverArtist": "VOLMÉRIO COSTA",
+      "shareCaption": "sai sexta! salva aí 🙏",
+      "shareTime": "10:12",
+      "reply": "tem que logar de novo? 😩",
+      "replyTime": "10:14"
     }
   },
   "nav": {
@@ -33,7 +68,7 @@
   "baking": {
     "name": "Baking",
     "tag": "para artistas",
-    "headline": "O lançamento que seus fãs merecem.",
+    "headline": "Pré-save é passado. Eis o lançamento que seus fãs merecem.",
     "bullets": [
       "Notificação no dia do lançamento",
       "Página personalizada do artista",

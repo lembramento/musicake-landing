@@ -116,6 +116,7 @@ a { color: inherit; text-decoration: none; }
 .hf-problem-body { font-size: 18px; line-height: 1.55; color: var(--text-muted); max-width: 480px; margin: 0; text-wrap: pretty; }
 @media (max-width: 880px) { .hf-problem-inner { grid-template-columns: 1fr; gap: 32px; } .hf-problem-chat-wrap { justify-self: start; } }
 .hf-problem-chat-wrap { width: 100%; max-width: 320px; display: flex; flex-direction: column; flex-shrink: 0; }
+.hf-problem-img { width: 100%; max-width: 320px; height: auto; display: block; flex-shrink: 0; }
 .hf-wa { position: relative; width: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 .hf-wa-body { position: relative; display: flex; flex-direction: column; gap: 10px; }
 .hf-wa-row { display: flex; }
@@ -453,6 +454,23 @@ const COPY = {
         shareTime: "14:24",
         reply: "mas eu uso youtube music 😕",
         replyTime: "14:25",
+      },
+    },
+    bakingProblem: {
+      titleStart: "Dê adeus à chatice do pré-save.",
+      titleHighlight: "",
+      body: "Lançamentos deveriam aproximar artistas e fãs — não colocar etapas no caminho.",
+      image: "baking-problem.svg",
+      chat: {
+        songTitle: "Maré viva (pré-save)",
+        songArtist: "Volmério Costa",
+        songHost: "presave.app",
+        coverTitle: "MARÉ VIVA",
+        coverArtist: "VOLMÉRIO COSTA",
+        shareCaption: "sai sexta! salva aí 🙏",
+        shareTime: "10:12",
+        reply: "tem que logar de novo? 😩",
+        replyTime: "10:14",
       },
     },
     ctaPrimary: "entrar na lista de espera",
@@ -1218,16 +1236,18 @@ function ProblemChat({ c }) {
   );
 }
 
-function ProblemSection({ lang }) {
-  const c = COPY[lang].problem || {};
+function ProblemSection({ lang, contentKey = "problem", id }) {
+  const c = COPY[lang][contentKey] || {};
   const chat = c.chat || {};
   return (
-    <section className="hf-section hf-problem">
+    <section className="hf-section hf-problem" id={id}>
       <div className="hf-problem-inner">
-        <ProblemChat c={chat} />
+        {c.image
+          ? <img className="hf-problem-img" src={c.image} alt="" />
+          : <ProblemChat c={chat} />}
         <div className="hf-problem-text">
           <h2 className="hf-h2 hf-problem-title">
-            {c.titleStart} <span className="hf-grad-text">{c.titleHighlight}</span>
+            {c.titleStart} {c.titleHighlight && <span className="hf-grad-text">{c.titleHighlight}</span>}
           </h2>
           <p className="hf-problem-body">{c.body}</p>
         </div>
@@ -1249,8 +1269,9 @@ function App() {
     <div>
       <NavHi lang={lang} onScrollTo={scrollTo}/>
       <HeroHi lang={lang} onScrollTo={scrollTo}/>
-      {show("problem") && <ProblemSection lang={lang}/>}
+      {show("problem") && <ProblemSection lang={lang} contentKey="problem"/>}
       {show("slice") && <SliceSection lang={lang}/>}
+      {show("bakingProblem") && <ProblemSection lang={lang} contentKey="bakingProblem"/>}
       {show("baking") && <BakingSection lang={lang}/>}
       {show("audience") && <AudienceHi lang={lang}/>}
       {show("manifesto") && <ManifestoHi lang={lang}/>}
