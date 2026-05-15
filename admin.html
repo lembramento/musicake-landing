@@ -116,6 +116,20 @@ textarea { resize: vertical; min-height: 72px; font-family: inherit; }
 .preview-link:hover { color: var(--text); border-color: var(--border-strong); }
 
 .kicker-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.img-slot { display: flex; gap: 14px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: rgba(0,0,0,0.18); align-items: center; }
+.img-slot-thumb { width: 72px; height: 72px; flex-shrink: 0; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px; }
+.img-slot-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.img-slot-empty { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); text-align: center; padding: 0 4px; line-height: 1.3; }
+.img-slot-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.img-slot-label { font-size: 14px; font-weight: 600; color: var(--text); }
+.img-slot-fname { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); word-break: break-all; }
+.img-slot-actions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.img-slot-actions .fakebtn { display: inline-flex; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text); font-size: 12px; font-weight: 500; cursor: pointer; }
+.img-slot-actions .fakebtn:hover { border-color: var(--border-strong); background: rgba(255,255,255,0.07); }
+.img-slot-clear { padding: 6px 12px; font-size: 12px; border-radius: 999px; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.25); color: var(--err); }
+.img-slot-clear:hover { background: rgba(255,107,107,0.15); }
 </style>
 </head>
 <body>
@@ -283,6 +297,37 @@ function Toggle({ label, checked, onChange }) {
   );
 }
 
+const SLICE_SLOTS = [
+  { path: "slice-step1.png", label: "Slice mobile — passo 1", accept: "image/png" },
+  { path: "slice-step2.png", label: "Slice mobile — passo 2", accept: "image/png" },
+  { path: "slice-step3.png", label: "Slice mobile — passo 3", accept: "image/png" },
+  { path: "slice-desktop-step1.svg", label: "Slice desktop — passo 1", accept: "image/svg+xml" },
+  { path: "slice-desktop-step2.svg", label: "Slice desktop — passo 2", accept: "image/svg+xml" },
+  { path: "slice-desktop-step3.svg", label: "Slice desktop — passo 3", accept: "image/svg+xml" },
+];
+
+function ImageSlot({ label, path, accept, queuedFile, onPick, onClear, currentSrc, emptyHint }) {
+  const previewUrl = queuedFile ? URL.createObjectURL(queuedFile) : currentSrc;
+  return (
+    <div className="img-slot">
+      <div className="img-slot-thumb">
+        {previewUrl
+          ? <img src={previewUrl} alt={label} />
+          : <span className="img-slot-empty">{emptyHint || "vazio"}</span>}
+      </div>
+      <div className="img-slot-body">
+        <div className="img-slot-label">{label}</div>
+        <div className="img-slot-fname">{queuedFile ? `novo: ${queuedFile.name}` : `arquivo: ${path}`}</div>
+        <div className="img-slot-actions">
+          <label className="fakebtn" htmlFor={`up-${path}`}>{queuedFile ? "trocar" : "enviar"}</label>
+          <input id={`up-${path}`} type="file" accept={accept} onChange={onPick} style={{ display: "none" }} />
+          {(queuedFile || onClear) && <button type="button" className="img-slot-clear" onClick={onClear}>{queuedFile ? "cancelar" : "remover"}</button>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Editor ────────────────────────────────────────────────────────────────────
 function Editor({ password, onLogout }) {
   const [content, setContent] = useState(null);
@@ -291,6 +336,9 @@ function Editor({ password, onLogout }) {
   const [toast, setToast] = useState(null);
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreviewUrl, setLogoPreviewUrl] = useState(null);
+  const [sliceFiles, setSliceFiles] = useState({});
+  const [bakingFile, setBakingFile] = useState(null);
+  const [bakingClear, setBakingClear] = useState(false);
   const toastTimer = useRef();
 
   useEffect(() => {
@@ -348,20 +396,62 @@ function Editor({ password, onLogout }) {
     setLogoPreviewUrl(url);
   }
 
+  function onSlicePick(slot, e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const okExt = slot.path.endsWith(".svg") ? /\.svg$/i : /\.(png|jpg|jpeg|webp)$/i;
+    if (!okExt.test(f.name)) {
+      showToast(`Use ${slot.path.endsWith(".svg") ? "SVG" : "PNG/JPG/WEBP"} pra ${slot.label}.`, "err");
+      e.target.value = "";
+      return;
+    }
+    setSliceFiles(prev => ({ ...prev, [slot.path]: f }));
+    e.target.value = "";
+  }
+
+  function onBakingPick(e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    if (!/\.(png|svg|jpg|jpeg|webp)$/i.test(f.name)) {
+      showToast("Use PNG, JPG, SVG ou WEBP.", "err");
+      return;
+    }
+    setBakingFile(f);
+    setBakingClear(false);
+    e.target.value = "";
+  }
+
   async function save() {
     if (!content) return;
     setBusy(true);
     try {
       const files = [];
-      let newContent = content;
+      let newContent = JSON.parse(JSON.stringify(content));
+      if (!newContent._meta) newContent._meta = {};
 
       if (logoFile) {
         const safeName = logoFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
         const b64 = await fileToBase64(logoFile);
         files.push({ path: safeName, contentBase64: b64 });
-        newContent = JSON.parse(JSON.stringify(content));
-        if (!newContent._meta) newContent._meta = {};
         newContent._meta.logo = safeName;
+      }
+
+      for (const slot of SLICE_SLOTS) {
+        const file = sliceFiles[slot.path];
+        if (file) {
+          const b64 = await fileToBase64(file);
+          files.push({ path: slot.path, contentBase64: b64 });
+        }
+      }
+
+      if (bakingFile) {
+        const ext = (bakingFile.name.split(".").pop() || "png").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const fname = `baking-plate.${ext || "png"}`;
+        const b64 = await fileToBase64(bakingFile);
+        files.push({ path: fname, contentBase64: b64 });
+        newContent._meta.bakingImage = fname;
+      } else if (bakingClear) {
+        delete newContent._meta.bakingImage;
       }
 
       const contentJsonStr = JSON.stringify(newContent, null, 2) + "\n";
@@ -386,6 +476,9 @@ function Editor({ password, onLogout }) {
       setOriginalContent(JSON.parse(JSON.stringify(newContent)));
       setLogoFile(null);
       setLogoPreviewUrl(null);
+      setSliceFiles({});
+      setBakingFile(null);
+      setBakingClear(false);
       localStorage.removeItem(DRAFT_KEY);
       showToast("Salvo! Aguarde ~30s para o site atualizar.", "ok", 6000);
     } catch (e) {
@@ -400,6 +493,9 @@ function Editor({ password, onLogout }) {
     setContent(JSON.parse(JSON.stringify(originalContent)));
     setLogoFile(null);
     setLogoPreviewUrl(null);
+    setSliceFiles({});
+    setBakingFile(null);
+    setBakingClear(false);
     showToast("Rascunho descartado.", "info");
   }
 
@@ -436,6 +532,45 @@ function Editor({ password, onLogout }) {
               <p className="fname">{logoFile ? `selecionado: ${logoFile.name}` : `atual: ${logo}`}</p>
             </div>
           </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Imagens do Slice</h2>
+          <p className="help">Mockups que aparecem na seção "Como compartilhar uma música". 3 PNGs pra aba "no celular", 3 SVGs pra aba "no navegador".</p>
+          <div className="img-grid">
+            {SLICE_SLOTS.map(slot => (
+              <ImageSlot
+                key={slot.path}
+                label={slot.label}
+                path={slot.path}
+                accept={slot.accept}
+                queuedFile={sliceFiles[slot.path]}
+                currentSrc={`/${slot.path}?t=${Date.now()}`}
+                onPick={e => onSlicePick(slot, e)}
+                onClear={sliceFiles[slot.path] ? () => setSliceFiles(prev => { const n = {...prev}; delete n[slot.path]; return n; }) : null}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Imagem do Baking</h2>
+          <p className="help">Hoje a seção "Baking" mostra um mockup feito em código (a "Plate" do Volmério Costa). Você pode trocar por uma imagem customizada — basta enviar um arquivo. Pra voltar ao mockup padrão, clique em "remover".</p>
+          <ImageSlot
+            label="Mockup do Baking"
+            path={content._meta?.bakingImage || "baking-plate.png"}
+            accept="image/png,image/svg+xml,image/jpeg,image/webp"
+            queuedFile={bakingFile}
+            currentSrc={!bakingClear && content._meta?.bakingImage ? `/${content._meta.bakingImage}?t=${Date.now()}` : null}
+            onPick={onBakingPick}
+            emptyHint={bakingClear ? "voltará ao mockup padrão" : "sem imagem (usa mockup CSS)"}
+            onClear={
+              bakingFile ? () => setBakingFile(null)
+              : (content._meta?.bakingImage && !bakingClear) ? () => setBakingClear(true)
+              : bakingClear ? () => setBakingClear(false)
+              : null
+            }
+          />
         </div>
 
         <div className="card">
