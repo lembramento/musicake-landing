@@ -108,6 +108,47 @@ a { color: inherit; text-decoration: none; }
 .hf-orbit-wave .bar { width: 4px; background: var(--magenta); border-radius: 4px; animation: waveBar 1.4s ease-in-out infinite; }
 @keyframes waveBar { 0%, 100% { height: 12px; } 50% { height: 60px; } }
 
+/* ── Problem section ─────────────────────────────────────────────────────── */
+.hf-problem { padding-top: 40px; padding-bottom: 80px; }
+.hf-problem-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center; }
+.hf-problem-text { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; text-align: left; }
+.hf-problem-title { margin: 4px 0 0; text-wrap: balance; }
+.hf-problem-body { font-size: 18px; line-height: 1.55; color: var(--text-muted); max-width: 480px; margin: 0; text-wrap: pretty; }
+@media (max-width: 880px) { .hf-problem-inner { grid-template-columns: 1fr; gap: 32px; } .hf-problem-chat-wrap { justify-self: start; } }
+.hf-problem-chat-wrap { width: 100%; max-width: 320px; display: flex; flex-direction: column; flex-shrink: 0; }
+.hf-wa { position: relative; width: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+.hf-wa-body { position: relative; display: flex; flex-direction: column; gap: 10px; }
+.hf-wa-row { display: flex; }
+.hf-wa-row.in { justify-content: flex-start; }
+.hf-wa-row.out { justify-content: flex-end; }
+.hf-wa-bubble { position: relative; max-width: 88%; padding: 8px 11px 8px 12px; border-radius: 14px; font-size: 14px; line-height: 1.35; color: #E9EDEF; word-wrap: break-word; display: inline-flex; align-items: flex-end; flex-wrap: wrap; gap: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+.hf-wa-row.in .hf-wa-bubble { background: #1F2C33; border-bottom-left-radius: 0; }
+.hf-wa-row.out .hf-wa-bubble { background: #005C4B; border-bottom-right-radius: 0; }
+.hf-wa-row.in .hf-wa-bubble::after, .hf-wa-row.out .hf-wa-bubble::after { content: ""; position: absolute; bottom: 0; width: 9px; height: 13px; pointer-events: none; background-repeat: no-repeat; background-size: 100% 100%; }
+.hf-wa-row.in .hf-wa-bubble::after { left: -9px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 13' preserveAspectRatio='none'><path d='M9 0 V13 H0 Q5 11 9 0 Z' fill='%231F2C33'/></svg>"); }
+.hf-wa-row.out .hf-wa-bubble::after { right: -9px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 13' preserveAspectRatio='none'><path d='M0 0 V13 H9 Q4 11 0 0 Z' fill='%23005C4B'/></svg>"); }
+.hf-wa-text { display: inline; }
+.hf-wa-meta { display: inline-flex; align-items: center; gap: 3px; margin-left: auto; padding-left: 6px; font-size: 10px; color: rgba(233,237,239,0.55); white-space: nowrap; align-self: flex-end; }
+.hf-wa-checks { flex-shrink: 0; }
+.hf-wa-bubble.has-card { flex-direction: column; align-items: stretch; padding: 8px; gap: 0; min-width: 220px; }
+.hf-wa-bubble.has-card .hf-wa-text { padding: 6px 4px 0; }
+.hf-wa-bubble.has-card .hf-wa-meta { padding: 0 4px 2px; align-self: flex-end; }
+.hf-wa-link { display: flex; gap: 8px; padding: 7px; background: rgba(0,0,0,0.28); border-radius: 8px; align-items: center; margin-bottom: 2px; }
+.hf-wa-link-cover { position: relative; width: 40px; height: 40px; border-radius: 4px; overflow: hidden; background: radial-gradient(ellipse at 30% 25%, #F2B5E0 0%, transparent 50%), radial-gradient(ellipse at 70% 75%, #C9D6FF 0%, transparent 55%), linear-gradient(135deg, #6E5FA8, #2A1F4E); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3px; flex-shrink: 0; }
+.hf-wa-link-cover-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 6.5px; letter-spacing: 0.04em; color: #fff; line-height: 1.05; text-align: center; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+.hf-wa-link-cover-artist { font-family: 'JetBrains Mono', monospace; font-size: 4.5px; letter-spacing: 0.08em; color: rgba(255,255,255,0.85); margin-top: 2px; }
+.hf-wa-link-info { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 1px; padding-right: 4px; }
+.hf-wa-link-title { font-size: 11px; font-weight: 600; color: #E9EDEF; letter-spacing: -0.005em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; }
+.hf-wa-link-artist { font-size: 10px; color: #B8C5CC; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; }
+.hf-wa-link-host { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; color: #8696A0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.hf-wa-link-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 6px; color: white; flex-shrink: 0; }
+.hf-wa-bubble.is-typing { display: inline-flex; align-items: center; gap: 3px; padding: 8px 10px; min-width: 0; }
+.hf-wa-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(233,237,239,0.5); display: inline-block; animation: waTyping 1.4s ease-in-out infinite; }
+.hf-wa-dot:nth-child(2) { animation-delay: 0.18s; }
+.hf-wa-dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes waTyping { 0%, 60%, 100% { opacity: 0.4; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+@media (max-width: 720px) { .hf-problem { padding-bottom: 60px; } .hf-problem-body { font-size: 16px; } .hf-problem-chat-wrap { max-width: 290px; } }
+
 .hf-product-section { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%), linear-gradient(180deg, var(--surface), var(--bg-1)); padding: 64px 56px; overflow: hidden; display: flex; flex-direction: column; gap: 56px; box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.35); }
 .hf-product-section::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 0% 0%, rgba(233,78,157,0.16), transparent 60%); pointer-events: none; }
 .hf-product-section.is-baking::before { background: radial-gradient(ellipse 60% 50% at 100% 0%, rgba(163,70,194,0.18), transparent 60%); }
@@ -398,6 +439,22 @@ const COPY = {
     heroHooks: [
       { kicker: "musicake", title: ["Música boa", "merece ser", "compartilhada"], sub: "Musicake ajuda artistas e ouvintes a compartilhar músicas de forma mais simples, universal e significativa." },
     ],
+    problem: {
+      titleStart: "Nem todo mundo ouve música",
+      titleHighlight: "no mesmo lugar.",
+      body: "Você já mandou uma música incrível para alguém e ficou no vácuo? Às vezes, o problema não é a música — é o link.",
+      chat: {
+        songTitle: "Quase manhã",
+        songArtist: "Júlia Bandeira",
+        songHost: "open.spotify.com",
+        coverTitle: "QUASE MANHÃ",
+        coverArtist: "JÚLIA BANDEIRA",
+        shareCaption: "escuta essa 🎶",
+        shareTime: "14:24",
+        reply: "mas eu uso youtube music 😕",
+        replyTime: "14:25",
+      },
+    },
     ctaPrimary: "entrar na lista de espera",
     ctaSecondary: "ver como funciona",
     baking: {
@@ -1110,6 +1167,75 @@ function FooterHi({ lang }) {
   );
 }
 
+// ── Problem section ──────────────────────────────────────────────────────────
+function ProblemChat({ c }) {
+  return (
+    <div className="hf-problem-chat-wrap">
+      <div className="hf-wa">
+        <div className="hf-wa-body">
+          <div className="hf-wa-row out">
+            <div className="hf-wa-bubble has-card">
+              <div className="hf-wa-link">
+                <div className="hf-wa-link-cover">
+                  <div className="hf-wa-link-cover-title">{c.coverTitle}</div>
+                  <div className="hf-wa-link-cover-artist">{c.coverArtist}</div>
+                </div>
+                <div className="hf-wa-link-info">
+                  <div className="hf-wa-link-title">{c.songTitle}</div>
+                  <div className="hf-wa-link-artist">{c.songArtist}</div>
+                  <div className="hf-wa-link-host">
+                    <span className="hf-wa-link-dot" style={{ background: "#1DB954" }}>♫</span>
+                    <span>{c.songHost}</span>
+                  </div>
+                </div>
+              </div>
+              <span className="hf-wa-text">{c.shareCaption}</span>
+              <span className="hf-wa-meta">
+                {c.shareTime}
+                <svg className="hf-wa-checks" width="14" height="10" viewBox="0 0 16 11" fill="none">
+                  <path d="M11.07.84L5.06 6.83l-1.41 1.41L0 4.59 1.41 3.17l2.24 2.24L9.66.84z" fill="#53BDEB" />
+                  <path d="M15.07.84L9.06 6.83l-1.41 1.41L4 4.59l1.41-1.42 2.24 2.24L13.66.84z" fill="#53BDEB" />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div className="hf-wa-row in">
+            <div className="hf-wa-bubble">
+              <span className="hf-wa-text">{c.reply}</span>
+              <span className="hf-wa-meta">{c.replyTime}</span>
+            </div>
+          </div>
+          <div className="hf-wa-row out">
+            <div className="hf-wa-bubble is-typing">
+              <span className="hf-wa-dot" />
+              <span className="hf-wa-dot" />
+              <span className="hf-wa-dot" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProblemSection({ lang }) {
+  const c = COPY[lang].problem || {};
+  const chat = c.chat || {};
+  return (
+    <section className="hf-section hf-problem">
+      <div className="hf-problem-inner">
+        <ProblemChat c={chat} />
+        <div className="hf-problem-text">
+          <h2 className="hf-h2 hf-problem-title">
+            {c.titleStart} <span className="hf-grad-text">{c.titleHighlight}</span>
+          </h2>
+          <p className="hf-problem-body">{c.body}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── App ───────────────────────────────────────────────────────────────────────
 function App() {
   const lang = "pt";
@@ -1123,6 +1249,7 @@ function App() {
     <div>
       <NavHi lang={lang} onScrollTo={scrollTo}/>
       <HeroHi lang={lang} onScrollTo={scrollTo}/>
+      {show("problem") && <ProblemSection lang={lang}/>}
       {show("slice") && <SliceSection lang={lang}/>}
       {show("baking") && <BakingSection lang={lang}/>}
       {show("audience") && <AudienceHi lang={lang}/>}

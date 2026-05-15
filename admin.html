@@ -578,6 +578,7 @@ function Editor({ password, onLogout }) {
           <p className="help">Ligue/desligue cada bloco do site. Mudanças aparecem após salvar.</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
             {[
+              ["problem", "Problema (chat WhatsApp)"],
               ["slice", "Slice (compartilhar música)"],
               ["baking", "Baking (lançamentos)"],
               ["audience", "Audiência"],
@@ -628,6 +629,31 @@ function Editor({ password, onLogout }) {
           <div className="row">
             <TextField label="texto botão primário" value={content.ctaPrimary} onChange={v => update("ctaPrimary", v)} />
             <TextField label="texto botão secundário" value={content.ctaSecondary} onChange={v => update("ctaSecondary", v)} />
+          </div>
+        </div>
+
+        <div className="card">
+          <h2><span className="dot"/>Problema (chat WhatsApp)</h2>
+          <p className="help">Seção logo após o Hero. Headline em duas partes, body, e o conteúdo das bolhas do chat.</p>
+          <TextField label="início do título" value={content.problem?.titleStart} onChange={v => update("problem.titleStart", v)} />
+          <TextField label="parte com gradiente (final do título)" value={content.problem?.titleHighlight} onChange={v => update("problem.titleHighlight", v)} />
+          <TextField label="texto de apoio" value={content.problem?.body} type="textarea" onChange={v => update("problem.body", v)} />
+          <div className="row">
+            <TextField label="título da música (bolha)" value={content.problem?.chat?.songTitle} onChange={v => update("problem.chat.songTitle", v)} />
+            <TextField label="artista" value={content.problem?.chat?.songArtist} onChange={v => update("problem.chat.songArtist", v)} />
+          </div>
+          <TextField label="host do link (ex: open.spotify.com)" value={content.problem?.chat?.songHost} onChange={v => update("problem.chat.songHost", v)} />
+          <div className="row">
+            <TextField label="capa — título" value={content.problem?.chat?.coverTitle} onChange={v => update("problem.chat.coverTitle", v)} />
+            <TextField label="capa — artista" value={content.problem?.chat?.coverArtist} onChange={v => update("problem.chat.coverArtist", v)} />
+          </div>
+          <div className="row">
+            <TextField label="legenda da mensagem (sua)" value={content.problem?.chat?.shareCaption} onChange={v => update("problem.chat.shareCaption", v)} />
+            <TextField label="horário (sua)" value={content.problem?.chat?.shareTime} onChange={v => update("problem.chat.shareTime", v)} />
+          </div>
+          <div className="row">
+            <TextField label="resposta (do outro)" value={content.problem?.chat?.reply} onChange={v => update("problem.chat.reply", v)} />
+            <TextField label="horário (resposta)" value={content.problem?.chat?.replyTime} onChange={v => update("problem.chat.replyTime", v)} />
           </div>
         </div>
 
