@@ -33,12 +33,12 @@
   "baking": {
     "name": "Baking",
     "tag": "para artistas",
-    "headline": "O lançamento que seus fãs merecem.",
+    "headline": "Pré-save é passado. Eis o lançamento que seus fãs merecem.",
     "bullets": [
-      "release com contexto e bastidores",
-      "coleta de e-mail e WhatsApp",
-      "notificação no dia do lançamento",
-      "página personalizada do artista"
+      "Notificação no dia do lançamento",
+      "Página personalizada do artista",
+      "Coleta de e-mail e WhatsApp",
+      "Release com contexto e bastidores"
     ]
   },
   "slice": {
@@ -46,10 +46,10 @@
     "tag": "para todo mundo",
     "headline": "Compartilhe uma música. Em qualquer plataforma.",
     "bullets": [
-      "funciona em Spotify, Apple, Deezer, YouTube…",
-      "um único link, todas as plataformas",
-      "sem login, sem fricção",
-      "preview no próprio link"
+      "Funciona em Spotify, Apple, Deezer, YouTube…",
+      "Um único link, todas as plataformas",
+      "Sem login, sem fricção",
+      "Preview no próprio link"
     ]
   },
   "audienceTitle": [
