@@ -3,7 +3,6 @@
     "version": 1,
     "logo": "musicake_wt.png",
     "sections": {
-      "problem": true,
       "slice": true,
       "baking": true,
       "audience": true,
@@ -11,22 +10,6 @@
       "testimonials": false,
       "faq": false,
       "finalCta": true
-    }
-  },
-  "problem": {
-    "titleStart": "Nem todo mundo ouve música",
-    "titleHighlight": "no mesmo lugar.",
-    "body": "Você já mandou uma música incrível para alguém e ficou no vácuo? Às vezes, o problema não é a música — é o link.",
-    "chat": {
-      "songTitle": "Quase manhã",
-      "songArtist": "Júlia Bandeira",
-      "songHost": "open.spotify.com",
-      "coverTitle": "QUASE MANHÃ",
-      "coverArtist": "JÚLIA BANDEIRA",
-      "shareCaption": "escuta essa 🎶",
-      "shareTime": "14:24",
-      "reply": "mas eu uso youtube music 😕",
-      "replyTime": "14:25"
     }
   },
   "nav": {
@@ -50,7 +33,7 @@
   "baking": {
     "name": "Baking",
     "tag": "para artistas",
-    "headline": "Pré-save é passado. Eis o lançamento que seus fãs merecem.",
+    "headline": "O lançamento que seus fãs merecem.",
     "bullets": [
       "Notificação no dia do lançamento",
       "Página personalizada do artista",
