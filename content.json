@@ -7,8 +7,8 @@
       "baking": true,
       "audience": true,
       "manifesto": true,
-      "testimonials": true,
-      "faq": true,
+      "testimonials": false,
+      "faq": false,
       "finalCta": true
     }
   },
