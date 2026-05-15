@@ -306,6 +306,9 @@ a { color: inherit; text-decoration: none; }
 .hf-cta-input::placeholder { color: var(--text-faint); }
 .hf-cta-form .hf-btn { padding: 12px 22px; }
 .hf-cta-fineprint { font-size: 13px; color: var(--text-faint); text-align: center; margin-top: 4px; }
+.hf-cta-status { margin-top: 12px; padding: 10px 16px; border-radius: 12px; font-size: 14px; line-height: 1.4; text-align: center; border: 1px solid; }
+.hf-cta-status-ok { background: rgba(78,205,184,0.10); border-color: rgba(78,205,184,0.35); color: #6EDDC8; }
+.hf-cta-status-err { background: rgba(255,107,107,0.10); border-color: rgba(255,107,107,0.35); color: #FF8B8B; }
 @media (max-width: 560px) { .hf-cta-form { flex-direction: column; border-radius: 18px; padding: 8px; } .hf-cta-form .hf-btn { width: 100%; } }
 
 .hf-footer { padding: 56px 32px 40px; max-width: var(--maxw); margin: 40px auto 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; color: var(--text-faint); font-size: 13px; }
@@ -1147,9 +1150,41 @@ function FAQHi({ lang }) {
 function FinalCTAHi({ lang }) {
   const c = COPY[lang];
   const [role, setRole] = React.useState("listener");
+  const [email, setEmail] = React.useState("");
+  const [status, setStatus] = React.useState(null);
+  const [busy, setBusy] = React.useState(false);
   const roles = { listener: "ouvinte", artist: "artista" };
   const placeholder = { listener: "seu melhor e-mail", artist: "seu e-mail de artista" };
   const ctaLabel = { listener: "quero entrar", artist: "falar com vocês" };
+
+  async function submit(e) {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setStatus(null);
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, role }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setEmail("");
+        setStatus({
+          kind: "ok",
+          msg: data.duplicate
+            ? "Já te temos por aqui — a gente avisa quando sua vaga chegar."
+            : "Inscrição recebida! A gente avisa quando sua vaga chegar.",
+        });
+      } else {
+        setStatus({ kind: "err", msg: data.error || "Não rolou. Tente de novo em alguns segundos." });
+      }
+    } catch (err) {
+      setStatus({ kind: "err", msg: "Erro de conexão. Tente de novo." });
+    }
+    setBusy(false);
+  }
 
   return (
     <section className="hf-section" id="cta">
@@ -1166,10 +1201,11 @@ function FinalCTAHi({ lang }) {
                 <button role="tab" aria-selected={role === "artist"} className={`hf-tab ${role === "artist" ? "active" : ""}`} onClick={() => setRole("artist")}><Icon name="mic" size={14}/> {roles.artist}</button>
               </div>
             </div>
-            <form className="hf-cta-form" onSubmit={(e) => e.preventDefault()}>
-              <input className="hf-cta-input" type="email" placeholder={placeholder[role]}/>
-              <button type="submit" className="hf-btn hf-btn-primary">{ctaLabel[role]} <Icon name="arrow-right" size={16}/></button>
+            <form className="hf-cta-form" onSubmit={submit}>
+              <input className="hf-cta-input" type="email" placeholder={placeholder[role]} value={email} onChange={e => setEmail(e.target.value)} required disabled={busy}/>
+              <button type="submit" className="hf-btn hf-btn-primary" disabled={busy}>{busy ? "enviando…" : ctaLabel[role]} {!busy && <Icon name="arrow-right" size={16}/>}</button>
             </form>
+            {status && <div className={`hf-cta-status hf-cta-status-${status.kind}`}>{status.msg}</div>}
             <div className="hf-cta-fineprint">Sem spam. A gente avisa quando sua vaga chegar.</div>
           </div>
         </div>
