@@ -804,7 +804,7 @@ function HeroVinyl() {
 function HeroOrbit() {
   const N = 7;
   const satellites = React.useMemo(() => {
-    const sizes = [84, 70, 79, 75, 66, 77, 70];
+    const sizes = [75, 75, 75, 75, 75, 75, 75];
     const photoIdx = [0, 2, 1, 3, 4, 5, 6];
     return Array.from({ length: N }, (_, i) => ({ baseAngle: i / N * 360, size: sizes[i], idx: photoIdx[i] }));
   }, []);
@@ -848,7 +848,7 @@ function HeroOrbit() {
             width: s.size, height: s.size,
             marginLeft: -s.size / 2, marginTop: -s.size / 2,
             backgroundImage: `url("${AVATAR_PHOTOS[s.idx % AVATAR_PHOTOS.length]}")`,
-            animationDelay: `${(i * 0.7) % 6}s`,
+            animationDelay: `-${(i * 0.7) % 6}s`,
           }}/>
         </div>
       ))}
