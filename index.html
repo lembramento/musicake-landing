@@ -179,11 +179,12 @@ a { color: inherit; text-decoration: none; }
 .hf-product-tag-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(233, 78, 157, 0.12); border: 1px solid rgba(233, 78, 157, 0.3); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); white-space: nowrap; margin-bottom: 18px; }
 .hf-product-tag-pill.is-baking { background: rgba(163, 70, 194, 0.14); border-color: rgba(163, 70, 194, 0.35); color: #D08DE8; }
 .hf-product-name { font-size: clamp(40px, 4.8vw, 64px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin: 0 0 18px; }
-.hf-product-name-row { display: flex; align-items: center; gap: 16px; margin: 0 0 18px; }
+.hf-product-name-row { display: flex; align-items: flex-end; gap: 16px; margin: 0 0 18px; }
 .hf-product-name-row .hf-product-name { margin: 0; }
-.hf-product-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--grad-soft); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: var(--magenta); border: 1px solid rgba(233,78,157,0.25); flex-shrink: 0; box-shadow: 0 4px 16px rgba(233,78,157,0.15); }
-.hf-product-icon.is-baking { color: #D08DE8; border-color: rgba(163,70,194,0.35); background: linear-gradient(135deg, rgba(255,139,150,0.10) 0%, rgba(163,70,194,0.22) 100%); box-shadow: 0 4px 16px rgba(163,70,194,0.18); }
-@media (max-width: 720px) { .hf-product-icon { width: 40px; height: 40px; font-size: 17px; } .hf-product-name-row { gap: 12px; } }
+.hf-product-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--magenta); }
+.hf-product-icon svg { width: 48px; height: 48px; display: block; }
+.hf-product-icon.is-baking { color: #D08DE8; }
+@media (max-width: 720px) { .hf-product-icon svg { width: 36px; height: 36px; } .hf-product-name-row { gap: 12px; } }
 .hf-product-headline-big { font-size: clamp(26px, 2.6vw, 36px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 18px; max-width: 820px; }
 .hf-product-section .hf-product-bullets { margin-top: 28px; max-width: 820px; list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
 .hf-product-section .hf-product-bullets li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: var(--text); }
@@ -1053,8 +1054,8 @@ function SliceSection({ lang }) {
           <div className="hf-product-head-main">
             <span className="hf-product-tag-pill">{p.tag}</span>
             <div className="hf-product-name-row">
-              <div className="hf-product-icon" aria-hidden="true">S</div>
               <h2 className="hf-product-name">{p.name}</h2>
+              <div className="hf-product-icon" aria-hidden="true"><SliceIcon/></div>
             </div>
             <p className="hf-product-headline-big hf-grad-text">{p.headline}</p>
             <ul className="hf-product-bullets">
@@ -1175,8 +1176,8 @@ function BakingSection({ lang }) {
           <div className="hf-product-head-main">
             <span className="hf-product-tag-pill is-baking">{p.tag}</span>
             <div className="hf-product-name-row">
-              <div className="hf-product-icon is-baking" aria-hidden="true">B</div>
               <h2 className="hf-product-name">{p.name}</h2>
+              <div className="hf-product-icon is-baking" aria-hidden="true"><BakingIcon/></div>
             </div>
             <p className="hf-product-headline-big hf-grad-text">{p.headline}</p>
             <ul className="hf-product-bullets">
@@ -1446,6 +1447,26 @@ function ProblemSection({ lang, contentKey = "problem", id }) {
   );
 }
 
+function SliceIcon() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M6 16L22 8C24.516 9.887 26 12.855 26 16C26 19.145 24.516 22.113 22 24L6 16Z"/>
+    </svg>
+  );
+}
+function BakingIcon() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M28 8L28 25C28 26.656 26.656 28 25 28L7 28C5.344 28 4 26.656 4 25L4 8C4 6.344 5.344 5 7 5L25 5C26.656 5 28 6.344 28 8Z"/>
+      <path d="M4 11L28 11"/>
+      <circle cx="24" cy="8" r="1" fill="currentColor" stroke="none"/>
+      <path d="M25 16L25 23C25 24.104 24.104 25 23 25L9 25C7.896 25 7 24.104 7 23L7 16C7 14.896 7.896 14 9 14L23 14C24.104 14 25 14.896 25 16Z"/>
+      <path d="M16 22L16 17"/>
+      <path d="M19 21L19 18"/>
+      <path d="M12.711479 21L12.711479 18"/>
+    </svg>
+  );
+}
 function Connector() {
   return (
     <div className="hf-connector" aria-hidden="true">
