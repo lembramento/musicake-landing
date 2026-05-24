@@ -39,6 +39,10 @@ header.bar { display: flex; align-items: center; justify-content: space-between;
 header.bar h1 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
 header.bar h1 span.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 header.bar .actions { display: flex; gap: 10px; align-items: center; }
+.admin-lang-tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+.admin-lang-btn { background: none; border: 0; padding: 4px 12px; border-radius: 999px; color: var(--text-faint); font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 160ms ease, background 160ms ease; }
+.admin-lang-btn:hover { color: var(--text-muted); }
+.admin-lang-btn.active { color: white; background: var(--grad); }
 
 button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 10px 18px; font-weight: 600; font-size: 14px; border: 1px solid transparent; transition: transform 120ms, box-shadow 180ms, background 180ms, border-color 180ms; }
 button:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -339,6 +343,7 @@ function Editor({ password, onLogout }) {
   const [sliceFiles, setSliceFiles] = useState({});
   const [bakingFile, setBakingFile] = useState(null);
   const [bakingClear, setBakingClear] = useState(false);
+  const [editLang, setEditLang] = useState("pt");
   const toastTimer = useRef();
 
   useEffect(() => {
@@ -383,6 +388,8 @@ function Editor({ password, onLogout }) {
       return next;
     });
   }
+  // Language-bound update: prefixes the path with the current editLang
+  function updL(path, value) { update(`${editLang}.${path}`, value); }
 
   function onLogoPick(e) {
     const f = e.target.files && e.target.files[0];
@@ -503,14 +510,19 @@ function Editor({ password, onLogout }) {
 
   const sections = (content._meta && content._meta.sections) || {};
   const logo = (content._meta && content._meta.logo) || "musicake_wt.png";
-  const heroHook = (content.heroHooks && content.heroHooks[0]) || {};
+  const lc = content[editLang] || {};
+  const heroHook = (lc.heroHooks && lc.heroHooks[0]) || {};
 
   return (
     <>
       <header className="bar">
         <h1>Painel <span className="grad">Musicake</span></h1>
         <div className="actions">
-          <a className="preview-link" href="/" target="_blank">ver site ↗</a>
+          <div className="admin-lang-tabs" role="group" aria-label="Editing language">
+            <button type="button" className={`admin-lang-btn ${editLang === "pt" ? "active" : ""}`} onClick={() => setEditLang("pt")} aria-pressed={editLang === "pt"}>pt</button>
+            <button type="button" className={`admin-lang-btn ${editLang === "en" ? "active" : ""}`} onClick={() => setEditLang("en")} aria-pressed={editLang === "en"}>en</button>
+          </div>
+          <a className="preview-link" href={`/?lang=${editLang}`} target="_blank">ver site ↗</a>
           <button className="btn-ghost" type="button" onClick={discardDraft}>descartar</button>
           <button className="btn-primary" type="button" onClick={save} disabled={busy}>{busy ? "salvando…" : "salvar"}</button>
           <button className="btn-ghost" type="button" onClick={onLogout}>sair</button>
@@ -596,177 +608,159 @@ function Editor({ password, onLogout }) {
 
         <div className="card">
           <h2><span className="dot"/>Navegação</h2>
-          <TextField label="link 'para ouvintes'" value={content.nav?.listen} onChange={v => update("nav.listen", v)} />
-          <TextField label="link 'para artistas'" value={content.nav?.artists} onChange={v => update("nav.artists", v)} />
-          <TextField label="botão lista de espera" value={content.nav?.waitlist} onChange={v => update("nav.waitlist", v)} />
+          <TextField label="link 'para ouvintes'" value={lc.nav?.listen} onChange={v => updL("nav.listen", v)} />
+          <TextField label="link 'para artistas'" value={lc.nav?.artists} onChange={v => updL("nav.artists", v)} />
+          <TextField label="botão lista de espera" value={lc.nav?.waitlist} onChange={v => updL("nav.waitlist", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Hero (topo)</h2>
           <TextField label="tag acima do título (deixe vazio pra esconder)" value={heroHook.kicker}
-            onChange={v => {
-              const next = JSON.parse(JSON.stringify(content));
-              if (!next.heroHooks) next.heroHooks = [{}];
-              next.heroHooks[0] = { ...next.heroHooks[0], kicker: v };
-              setContent(next);
-              localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
-            }} />
+            onChange={v => updL("heroHooks", [{ ...heroHook, kicker: v }])} />
           <ArrayOfStrings label="título (uma linha por campo)" value={heroHook.title}
-            onChange={v => {
-              const next = JSON.parse(JSON.stringify(content));
-              if (!next.heroHooks) next.heroHooks = [{}];
-              next.heroHooks[0] = { ...next.heroHooks[0], title: v };
-              setContent(next);
-              localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
-            }} />
+            onChange={v => updL("heroHooks", [{ ...heroHook, title: v }])} />
           <TextField label="subtítulo" value={heroHook.sub} type="textarea"
-            onChange={v => {
-              const next = JSON.parse(JSON.stringify(content));
-              if (!next.heroHooks) next.heroHooks = [{}];
-              next.heroHooks[0] = { ...next.heroHooks[0], sub: v };
-              setContent(next);
-              localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
-            }} />
+            onChange={v => updL("heroHooks", [{ ...heroHook, sub: v }])} />
           <div className="row">
-            <TextField label="texto botão primário" value={content.ctaPrimary} onChange={v => update("ctaPrimary", v)} />
-            <TextField label="texto botão secundário" value={content.ctaSecondary} onChange={v => update("ctaSecondary", v)} />
+            <TextField label="texto botão primário" value={lc.ctaPrimary} onChange={v => updL("ctaPrimary", v)} />
+            <TextField label="texto botão secundário" value={lc.ctaSecondary} onChange={v => updL("ctaSecondary", v)} />
           </div>
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Problema (chat WhatsApp)</h2>
           <p className="help">Seção logo após o Hero. Headline em duas partes, body, e o conteúdo das bolhas do chat.</p>
-          <TextField label="início do título" value={content.problem?.titleStart} onChange={v => update("problem.titleStart", v)} />
-          <TextField label="parte com gradiente (final do título)" value={content.problem?.titleHighlight} onChange={v => update("problem.titleHighlight", v)} />
-          <TextField label="texto de apoio" value={content.problem?.body} type="textarea" onChange={v => update("problem.body", v)} />
+          <TextField label="início do título" value={lc.problem?.titleStart} onChange={v => updL("problem.titleStart", v)} />
+          <TextField label="parte com gradiente (final do título)" value={lc.problem?.titleHighlight} onChange={v => updL("problem.titleHighlight", v)} />
+          <TextField label="texto de apoio" value={lc.problem?.body} type="textarea" onChange={v => updL("problem.body", v)} />
           <div className="row">
-            <TextField label="título da música (bolha)" value={content.problem?.chat?.songTitle} onChange={v => update("problem.chat.songTitle", v)} />
-            <TextField label="artista" value={content.problem?.chat?.songArtist} onChange={v => update("problem.chat.songArtist", v)} />
+            <TextField label="título da música (bolha)" value={lc.problem?.chat?.songTitle} onChange={v => updL("problem.chat.songTitle", v)} />
+            <TextField label="artista" value={lc.problem?.chat?.songArtist} onChange={v => updL("problem.chat.songArtist", v)} />
           </div>
-          <TextField label="host do link (ex: open.spotify.com)" value={content.problem?.chat?.songHost} onChange={v => update("problem.chat.songHost", v)} />
+          <TextField label="host do link (ex: open.spotify.com)" value={lc.problem?.chat?.songHost} onChange={v => updL("problem.chat.songHost", v)} />
           <div className="row">
-            <TextField label="capa — título" value={content.problem?.chat?.coverTitle} onChange={v => update("problem.chat.coverTitle", v)} />
-            <TextField label="capa — artista" value={content.problem?.chat?.coverArtist} onChange={v => update("problem.chat.coverArtist", v)} />
-          </div>
-          <div className="row">
-            <TextField label="legenda da mensagem (sua)" value={content.problem?.chat?.shareCaption} onChange={v => update("problem.chat.shareCaption", v)} />
-            <TextField label="horário (sua)" value={content.problem?.chat?.shareTime} onChange={v => update("problem.chat.shareTime", v)} />
+            <TextField label="capa — título" value={lc.problem?.chat?.coverTitle} onChange={v => updL("problem.chat.coverTitle", v)} />
+            <TextField label="capa — artista" value={lc.problem?.chat?.coverArtist} onChange={v => updL("problem.chat.coverArtist", v)} />
           </div>
           <div className="row">
-            <TextField label="resposta (do outro)" value={content.problem?.chat?.reply} onChange={v => update("problem.chat.reply", v)} />
-            <TextField label="horário (resposta)" value={content.problem?.chat?.replyTime} onChange={v => update("problem.chat.replyTime", v)} />
+            <TextField label="legenda da mensagem (sua)" value={lc.problem?.chat?.shareCaption} onChange={v => updL("problem.chat.shareCaption", v)} />
+            <TextField label="horário (sua)" value={lc.problem?.chat?.shareTime} onChange={v => updL("problem.chat.shareTime", v)} />
+          </div>
+          <div className="row">
+            <TextField label="resposta (do outro)" value={lc.problem?.chat?.reply} onChange={v => updL("problem.chat.reply", v)} />
+            <TextField label="horário (resposta)" value={lc.problem?.chat?.replyTime} onChange={v => updL("problem.chat.replyTime", v)} />
           </div>
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Slice (compartilhar)</h2>
           <div className="row">
-            <TextField label="nome" value={content.slice?.name} onChange={v => update("slice.name", v)} />
-            <TextField label="tag" value={content.slice?.tag} onChange={v => update("slice.tag", v)} />
+            <TextField label="nome" value={lc.slice?.name} onChange={v => updL("slice.name", v)} />
+            <TextField label="tag" value={lc.slice?.tag} onChange={v => updL("slice.tag", v)} />
           </div>
-          <TextField label="headline" value={content.slice?.headline} onChange={v => update("slice.headline", v)} />
-          <ArrayOfStrings label="bullets" value={content.slice?.bullets} onChange={v => update("slice.bullets", v)} />
-          <TextField label="kicker dos passos" value={content.howSliceKicker} onChange={v => update("howSliceKicker", v)} />
-          <TextField label="título dos passos" value={content.howSliceTitle} onChange={v => update("howSliceTitle", v)} />
-          <ArrayOfObjects label="passos (celular)" value={content.howSlice}
+          <TextField label="headline" value={lc.slice?.headline} onChange={v => updL("slice.headline", v)} />
+          <ArrayOfStrings label="bullets" value={lc.slice?.bullets} onChange={v => updL("slice.bullets", v)} />
+          <TextField label="kicker dos passos" value={lc.howSliceKicker} onChange={v => updL("howSliceKicker", v)} />
+          <TextField label="título dos passos" value={lc.howSliceTitle} onChange={v => updL("howSliceTitle", v)} />
+          <ArrayOfObjects label="passos (celular)" value={lc.howSlice}
             schema={{ n: { label: "número", type: "number" }, label: { label: "texto", type: "textarea" } }}
             renderLabel={(item, i) => `passo ${item.n || i + 1}`}
-            onChange={v => update("howSlice", v)} />
-          <ArrayOfObjects label="passos (navegador)" value={content.howSliceDesktop}
+            onChange={v => updL("howSlice", v)} />
+          <ArrayOfObjects label="passos (navegador)" value={lc.howSliceDesktop}
             schema={{ n: { label: "número", type: "number" }, label: { label: "texto", type: "textarea" } }}
             renderLabel={(item, i) => `passo ${item.n || i + 1}`}
-            onChange={v => update("howSliceDesktop", v)} />
+            onChange={v => updL("howSliceDesktop", v)} />
           <div className="row">
-            <TextField label="rótulo aba mobile" value={content.howSliceTabs?.mobile} onChange={v => update("howSliceTabs.mobile", v)} />
-            <TextField label="rótulo aba desktop" value={content.howSliceTabs?.desktop} onChange={v => update("howSliceTabs.desktop", v)} />
+            <TextField label="rótulo aba mobile" value={lc.howSliceTabs?.mobile} onChange={v => updL("howSliceTabs.mobile", v)} />
+            <TextField label="rótulo aba desktop" value={lc.howSliceTabs?.desktop} onChange={v => updL("howSliceTabs.desktop", v)} />
           </div>
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Problema do Baking (chat WhatsApp)</h2>
           <p className="help">Seção logo antes do Baking, mesma estrutura visual da seção "Problema". Headline em duas partes, body e bolhas do chat.</p>
-          <TextField label="início do título" value={content.bakingProblem?.titleStart} onChange={v => update("bakingProblem.titleStart", v)} />
-          <TextField label="parte com gradiente (final do título) — deixe vazio se não quiser" value={content.bakingProblem?.titleHighlight} onChange={v => update("bakingProblem.titleHighlight", v)} />
-          <TextField label="texto de apoio" value={content.bakingProblem?.body} type="textarea" onChange={v => update("bakingProblem.body", v)} />
+          <TextField label="início do título" value={lc.bakingProblem?.titleStart} onChange={v => updL("bakingProblem.titleStart", v)} />
+          <TextField label="parte com gradiente (final do título) — deixe vazio se não quiser" value={lc.bakingProblem?.titleHighlight} onChange={v => updL("bakingProblem.titleHighlight", v)} />
+          <TextField label="texto de apoio" value={lc.bakingProblem?.body} type="textarea" onChange={v => updL("bakingProblem.body", v)} />
           <div className="row">
-            <TextField label="título da música (bolha)" value={content.bakingProblem?.chat?.songTitle} onChange={v => update("bakingProblem.chat.songTitle", v)} />
-            <TextField label="artista" value={content.bakingProblem?.chat?.songArtist} onChange={v => update("bakingProblem.chat.songArtist", v)} />
+            <TextField label="título da música (bolha)" value={lc.bakingProblem?.chat?.songTitle} onChange={v => updL("bakingProblem.chat.songTitle", v)} />
+            <TextField label="artista" value={lc.bakingProblem?.chat?.songArtist} onChange={v => updL("bakingProblem.chat.songArtist", v)} />
           </div>
-          <TextField label="host do link" value={content.bakingProblem?.chat?.songHost} onChange={v => update("bakingProblem.chat.songHost", v)} />
+          <TextField label="host do link" value={lc.bakingProblem?.chat?.songHost} onChange={v => updL("bakingProblem.chat.songHost", v)} />
           <div className="row">
-            <TextField label="capa — título" value={content.bakingProblem?.chat?.coverTitle} onChange={v => update("bakingProblem.chat.coverTitle", v)} />
-            <TextField label="capa — artista" value={content.bakingProblem?.chat?.coverArtist} onChange={v => update("bakingProblem.chat.coverArtist", v)} />
-          </div>
-          <div className="row">
-            <TextField label="legenda da mensagem (sua)" value={content.bakingProblem?.chat?.shareCaption} onChange={v => update("bakingProblem.chat.shareCaption", v)} />
-            <TextField label="horário (sua)" value={content.bakingProblem?.chat?.shareTime} onChange={v => update("bakingProblem.chat.shareTime", v)} />
+            <TextField label="capa — título" value={lc.bakingProblem?.chat?.coverTitle} onChange={v => updL("bakingProblem.chat.coverTitle", v)} />
+            <TextField label="capa — artista" value={lc.bakingProblem?.chat?.coverArtist} onChange={v => updL("bakingProblem.chat.coverArtist", v)} />
           </div>
           <div className="row">
-            <TextField label="resposta (do outro)" value={content.bakingProblem?.chat?.reply} onChange={v => update("bakingProblem.chat.reply", v)} />
-            <TextField label="horário (resposta)" value={content.bakingProblem?.chat?.replyTime} onChange={v => update("bakingProblem.chat.replyTime", v)} />
+            <TextField label="legenda da mensagem (sua)" value={lc.bakingProblem?.chat?.shareCaption} onChange={v => updL("bakingProblem.chat.shareCaption", v)} />
+            <TextField label="horário (sua)" value={lc.bakingProblem?.chat?.shareTime} onChange={v => updL("bakingProblem.chat.shareTime", v)} />
+          </div>
+          <div className="row">
+            <TextField label="resposta (do outro)" value={lc.bakingProblem?.chat?.reply} onChange={v => updL("bakingProblem.chat.reply", v)} />
+            <TextField label="horário (resposta)" value={lc.bakingProblem?.chat?.replyTime} onChange={v => updL("bakingProblem.chat.replyTime", v)} />
           </div>
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Baking (lançamentos)</h2>
           <div className="row">
-            <TextField label="nome" value={content.baking?.name} onChange={v => update("baking.name", v)} />
-            <TextField label="tag" value={content.baking?.tag} onChange={v => update("baking.tag", v)} />
+            <TextField label="nome" value={lc.baking?.name} onChange={v => updL("baking.name", v)} />
+            <TextField label="tag" value={lc.baking?.tag} onChange={v => updL("baking.tag", v)} />
           </div>
-          <TextField label="headline" value={content.baking?.headline} onChange={v => update("baking.headline", v)} />
-          <ArrayOfStrings label="bullets" value={content.baking?.bullets} onChange={v => update("baking.bullets", v)} />
-          <TextField label="kicker dos passos" value={content.howBakingKicker} onChange={v => update("howBakingKicker", v)} />
-          <TextField label="título dos passos" value={content.howBakingTitle} onChange={v => update("howBakingTitle", v)} />
-          <ArrayOfObjects label="passos" value={content.howBaking}
+          <TextField label="headline" value={lc.baking?.headline} onChange={v => updL("baking.headline", v)} />
+          <ArrayOfStrings label="bullets" value={lc.baking?.bullets} onChange={v => updL("baking.bullets", v)} />
+          <TextField label="kicker dos passos" value={lc.howBakingKicker} onChange={v => updL("howBakingKicker", v)} />
+          <TextField label="título dos passos" value={lc.howBakingTitle} onChange={v => updL("howBakingTitle", v)} />
+          <ArrayOfObjects label="passos" value={lc.howBaking}
             schema={{ n: { label: "número", type: "number" }, label: { label: "texto", type: "textarea" } }}
             renderLabel={(item, i) => `passo ${item.n || i + 1}`}
-            onChange={v => update("howBaking", v)} />
+            onChange={v => updL("howBaking", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Audiência</h2>
-          <ArrayOfStrings label="título (uma linha por campo)" value={content.audienceTitle} onChange={v => update("audienceTitle", v)} />
-          <ArrayOfObjects label="grupos" value={content.audiences}
+          <ArrayOfStrings label="título (uma linha por campo)" value={lc.audienceTitle} onChange={v => updL("audienceTitle", v)} />
+          <ArrayOfObjects label="grupos" value={lc.audiences}
             schema={{ name: { label: "nome", type: "text" }, desc: { label: "descrição", type: "textarea" } }}
             renderLabel={item => item.name || "grupo"}
-            onChange={v => update("audiences", v)} />
+            onChange={v => updL("audiences", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Manifesto</h2>
-          <TextField label="kicker" value={content.manifestoBlock?.kicker} onChange={v => update("manifestoBlock.kicker", v)} />
-          <ArrayOfStrings label="título (uma linha por campo)" value={content.manifestoBlock?.title} onChange={v => update("manifestoBlock.title", v)} />
-          <TextField label="texto" value={content.manifestoBlock?.body} type="textarea" onChange={v => update("manifestoBlock.body", v)} />
+          <TextField label="kicker" value={lc.manifestoBlock?.kicker} onChange={v => updL("manifestoBlock.kicker", v)} />
+          <ArrayOfStrings label="título (uma linha por campo)" value={lc.manifestoBlock?.title} onChange={v => updL("manifestoBlock.title", v)} />
+          <TextField label="texto" value={lc.manifestoBlock?.body} type="textarea" onChange={v => updL("manifestoBlock.body", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Depoimentos</h2>
-          <TextField label="kicker" value={content.testimonialsKicker} onChange={v => update("testimonialsKicker", v)} />
-          <ArrayOfObjects label="depoimentos" value={content.testimonials}
+          <TextField label="kicker" value={lc.testimonialsKicker} onChange={v => updL("testimonialsKicker", v)} />
+          <ArrayOfObjects label="depoimentos" value={lc.testimonials}
             schema={{ quote: { label: "frase", type: "textarea" }, author: { label: "autor", type: "text" } }}
             renderLabel={item => item.author || "depoimento"}
-            onChange={v => update("testimonials", v)} />
+            onChange={v => updL("testimonials", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>FAQ</h2>
-          <TextField label="kicker" value={content.faqKicker} onChange={v => update("faqKicker", v)} />
-          <ArrayOfObjects label="perguntas" value={content.faq}
+          <TextField label="kicker" value={lc.faqKicker} onChange={v => updL("faqKicker", v)} />
+          <ArrayOfObjects label="perguntas" value={lc.faq}
             schema={{ q: { label: "pergunta", type: "text" }, a: { label: "resposta", type: "textarea" } }}
             renderLabel={item => item.q || "pergunta"}
-            onChange={v => update("faq", v)} />
+            onChange={v => updL("faq", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>CTA final</h2>
-          <TextField label="kicker" value={content.finalKicker} onChange={v => update("finalKicker", v)} />
-          <ArrayOfStrings label="título (uma linha por campo)" value={content.finalTitle} onChange={v => update("finalTitle", v)} />
-          <TextField label="subtítulo" value={content.finalSub} type="textarea" onChange={v => update("finalSub", v)} />
+          <TextField label="kicker" value={lc.finalKicker} onChange={v => updL("finalKicker", v)} />
+          <ArrayOfStrings label="título (uma linha por campo)" value={lc.finalTitle} onChange={v => updL("finalTitle", v)} />
+          <TextField label="subtítulo" value={lc.finalSub} type="textarea" onChange={v => updL("finalSub", v)} />
         </div>
 
         <div className="card">
           <h2><span className="dot"/>Rodapé</h2>
-          <TextField label="texto do rodapé" value={content.footer} onChange={v => update("footer", v)} />
+          <TextField label="texto do rodapé" value={lc.footer} onChange={v => updL("footer", v)} />
         </div>
 
       </div>

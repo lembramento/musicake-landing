@@ -82,6 +82,11 @@ a { color: inherit; text-decoration: none; }
 .hf-nav-link { font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color 160ms ease; }
 .hf-nav-link:hover { color: var(--text); }
 .hf-nav-cta { display: flex; gap: 10px; align-items: center; }
+.hf-lang-toggle { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.hf-lang-btn { background: none; border: 0; padding: 2px 4px; color: var(--text-faint); cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: inherit; transition: color 160ms ease; }
+.hf-lang-btn:hover { color: var(--text-muted); }
+.hf-lang-btn.active { color: var(--text); }
+.hf-lang-sep { color: var(--text-faint); user-select: none; }
 @media (max-width: 720px) { .hf-nav { padding: 14px 20px; } .hf-nav-links { display: none; } }
 
 .hf-logo { display: inline-flex; align-items: center; gap: 10px; user-select: none; }
@@ -174,6 +179,11 @@ a { color: inherit; text-decoration: none; }
 .hf-product-tag-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(233, 78, 157, 0.12); border: 1px solid rgba(233, 78, 157, 0.3); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); white-space: nowrap; margin-bottom: 18px; }
 .hf-product-tag-pill.is-baking { background: rgba(163, 70, 194, 0.14); border-color: rgba(163, 70, 194, 0.35); color: #D08DE8; }
 .hf-product-name { font-size: clamp(40px, 4.8vw, 64px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin: 0 0 18px; }
+.hf-product-name-row { display: flex; align-items: center; gap: 16px; margin: 0 0 18px; }
+.hf-product-name-row .hf-product-name { margin: 0; }
+.hf-product-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--grad-soft); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: var(--magenta); border: 1px solid rgba(233,78,157,0.25); flex-shrink: 0; box-shadow: 0 4px 16px rgba(233,78,157,0.15); }
+.hf-product-icon.is-baking { color: #D08DE8; border-color: rgba(163,70,194,0.35); background: linear-gradient(135deg, rgba(255,139,150,0.10) 0%, rgba(163,70,194,0.22) 100%); box-shadow: 0 4px 16px rgba(163,70,194,0.18); }
+@media (max-width: 720px) { .hf-product-icon { width: 40px; height: 40px; font-size: 17px; } .hf-product-name-row { gap: 12px; } }
 .hf-product-headline-big { font-size: clamp(26px, 2.6vw, 36px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 18px; max-width: 820px; }
 .hf-product-section .hf-product-bullets { margin-top: 28px; max-width: 820px; list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
 .hf-product-section .hf-product-bullets li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: var(--text); }
@@ -452,6 +462,11 @@ a { color: inherit; text-decoration: none; }
 <script type="text/babel">
 // ── Content (PT/EN copy) ────────────────────────────────────────────────────
 const COPY = {
+  _meta: {
+    logo: "musicake_wt.png",
+    defaultLang: "pt",
+    sections: { problem: true, slice: true, bakingProblem: true, baking: true, audience: true, manifesto: true, testimonials: true, faq: true, finalCta: true },
+  },
   pt: {
     nav: { listen: "para ouvintes", artists: "para artistas", waitlist: "entrar na lista" },
     heroHooks: [
@@ -547,7 +562,128 @@ const COPY = {
       { quote: "É a primeira ferramenta de lançamento que parece pensada pelo artista, não pela plataforma.", author: "Léo Brandt · produtor" },
       { quote: "Meu blog precisa disso. Linkar uma música é sempre um pesadelo.", author: "Coletivo Pulso · curadoria" },
     ],
-    footer: "Musicake · uma camada gostosa entre artistas, ouvintes e plataformas · 2026",
+    cta: {
+      roleLabel: "Eu sou",
+      roles: { listener: "ouvinte", artist: "artista" },
+      placeholder: { listener: "seu melhor e-mail", artist: "seu e-mail de artista" },
+      ctaLabel: { listener: "quero entrar", artist: "falar com vocês" },
+      fineprint: "Sem spam. A gente avisa quando sua vaga chegar.",
+      submitting: "enviando…",
+      statusOk: "Inscrição recebida! A gente avisa quando sua vaga chegar.",
+      statusDup: "Já te temos por aqui — a gente avisa quando sua vaga chegar.",
+      statusErr: "Não rolou. Tente de novo em alguns segundos.",
+      statusConnErr: "Erro de conexão. Tente de novo.",
+    },
+    footer: "Musicake: todo mundo merece uma fatia · 2026",
+  },
+  en: {
+    nav: { listen: "for listeners", artists: "for artists", waitlist: "join the waitlist" },
+    heroHooks: [
+      { kicker: "", title: ["Good music", "deserves to be", "shared"], sub: "Musicake helps artists and listeners share music in a simpler, more universal and meaningful way." },
+    ],
+    problem: {
+      titleStart: "Not everyone listens to music",
+      titleHighlight: "in the same place.",
+      body: "Ever sent someone an amazing track and got nothing back? Sometimes it's not the song — it's the link.",
+      chat: {
+        songTitle: "Quase manhã",
+        songArtist: "Júlia Bandeira",
+        songHost: "open.spotify.com",
+        coverTitle: "QUASE MANHÃ",
+        coverArtist: "JÚLIA BANDEIRA",
+        shareCaption: "listen to this 🎶",
+        shareTime: "14:24",
+        reply: "but I use youtube music 😕",
+        replyTime: "14:25",
+      },
+    },
+    bakingProblem: {
+      titleStart: "Say goodbye to pre-save friction.",
+      titleHighlight: "",
+      body: "Releases should bring artists and fans closer — not put steps in the way.",
+      image: "baking-problem.svg",
+      chat: {
+        songTitle: "Maré viva (pre-save)",
+        songArtist: "Volmério Costa",
+        songHost: "presave.app",
+        coverTitle: "MARÉ VIVA",
+        coverArtist: "VOLMÉRIO COSTA",
+        shareCaption: "drops Friday! save it 🙏",
+        shareTime: "10:12",
+        reply: "do I have to log in again? 😩",
+        replyTime: "10:14",
+      },
+    },
+    ctaPrimary: "join the waitlist",
+    ctaSecondary: "see how it works",
+    baking: {
+      name: "Baking", tag: "for artists",
+      headline: "The release your fans deserve.",
+      bullets: ["release with context and behind-the-scenes", "email and WhatsApp collection", "launch-day notification", "personalized artist page"],
+    },
+    slice: {
+      name: "Slice", tag: "for everyone",
+      headline: "Share a song. On any platform.",
+      bullets: ["works on Spotify, Apple, Deezer, YouTube…", "one link, every platform", "no login, no friction", "preview right in the link"],
+    },
+    audienceTitle: ["Made for those who", "love music", "for real."],
+    audiences: [
+      { name: "The best listeners", desc: "Those who send music to friends without caring which platform anyone uses." },
+      { name: "Independent artists", desc: "Who want to release with less friction and more direct connection to their audience." },
+      { name: "Curators and creators", desc: "Who build playlists, posts and recommendations that need to live outside any single platform's bubble." },
+      { name: "Blogs, labels and communities", desc: "Who want richer, prettier, more useful music pages for their audience." },
+    ],
+    howSliceKicker: "",
+    howSliceTitle: "How to share a song in 3 steps",
+    howSlice: [
+      { n: 1, label: "Tap share on any music platform" },
+      { n: 2, label: "Pick the Musicake app from your device's list" },
+      { n: 3, label: "Musicake automatically creates a link with access to the song on every platform" },
+    ],
+    howSliceDesktop: [
+      { n: 1, label: "Install the Musicake extension in your browser. Works with Chrome, Arc, Edge and Firefox." },
+      { n: 2, label: "Listen to music on any platform. The Musicake icon shows up right in the interface." },
+      { n: 3, label: "Click the icon and Musicake generates a universal link, ready to send." },
+    ],
+    howSliceTabs: { mobile: "📱 on mobile", desktop: "💻 in the browser" },
+    howBakingKicker: "",
+    howBakingTitle: "How to release a song in 4 movements.",
+    howBaking: [
+      { n: 1, label: "Create your release page.\n\nYour 'Plate' on Musicake." },
+      { n: 2, label: "Send it to everyone. People just need to leave their email or WhatsApp. No login, no hassle." },
+      { n: 3, label: "Your fans get a notification on launch day with a link to your Plate." },
+      { n: 4, label: "Your personalized Plate holds links to listen, the release notes, and a fan-interaction area." },
+    ],
+    manifestoBlock: { kicker: "our belief", title: ["Music", "deserves", "more."], body: "Music is experience, meaning and connection.\nIt shouldn't be treated as content.\nMusicake exists to bring care and intention back to the way songs travel." },
+    finalKicker: "be first",
+    finalTitle: ["Let's share", "music in a", "new way."],
+    finalSub: "We're testing with the first people — listeners, artists, curators and labels. Leave your email and we'll let you know when it's your turn.",
+    faqKicker: "questions we hear often",
+    faq: [
+      { q: "Do I need to pay to use it?", a: "Slice will be free for listeners. For artists, we'll have a generous free plan and a paid plan with more release features." },
+      { q: "Does it work with any platform?", a: "Yes — Spotify, Apple Music, Deezer, YouTube Music, Tidal and other majors. The list keeps growing." },
+      { q: "How do you make money?", a: "With plans for artists and labels. Never by selling listener data, never by locking music behind a paywall." },
+      { q: "When does it launch?", a: "We're in closed beta in 2026. Join the waitlist and you'll hear first." },
+    ],
+    testimonialsKicker: "first voices",
+    testimonials: [
+      { quote: "Finally I can send a song to my dad without asking 'which one do you use?'", author: "Marina · beta listener" },
+      { quote: "It's the first release tool that feels designed by an artist, not by a platform.", author: "Léo Brandt · producer" },
+      { quote: "My blog needs this. Linking a song is always a nightmare.", author: "Coletivo Pulso · curators" },
+    ],
+    cta: {
+      roleLabel: "I'm",
+      roles: { listener: "a listener", artist: "an artist" },
+      placeholder: { listener: "your best email", artist: "your artist email" },
+      ctaLabel: { listener: "I want in", artist: "let's talk" },
+      fineprint: "No spam. We'll let you know when your spot is up.",
+      submitting: "sending…",
+      statusOk: "You're in! We'll let you know when your spot is up.",
+      statusDup: "Already got you here — we'll let you know when your spot is up.",
+      statusErr: "Didn't work. Try again in a few seconds.",
+      statusConnErr: "Connection error. Try again.",
+    },
+    footer: "Musicake: everyone deserves a slice · 2026",
   },
 };
 
@@ -598,7 +734,7 @@ function Avatar({ initials = "M", size = 36, idx = 0 }) {
 }
 
 function Logo({ size = 28 }) {
-  const src = (COPY.pt._meta && COPY.pt._meta.logo) || "musicake_wt.png";
+  const src = (COPY._meta && COPY._meta.logo) || "musicake_wt.png";
   return (
     <a className="hf-logo" href="#top">
       <img src={src} alt="Musicake" style={{ height: size * 1.05, width: "auto", display: "block" }} />
@@ -857,7 +993,7 @@ function HeroOrbit() {
 }
 
 // ── Nav ───────────────────────────────────────────────────────────────────────
-function NavHi({ lang, onScrollTo }) {
+function NavHi({ lang, setLang, onScrollTo }) {
   const c = COPY[lang];
   const scrolled = useScrolled();
   return (
@@ -869,6 +1005,13 @@ function NavHi({ lang, onScrollTo }) {
           <a className="hf-nav-link" onClick={() => onScrollTo("baking")} style={{ cursor: "pointer" }}>{c.nav.artists}</a>
         </div>
         <div className="hf-nav-cta">
+          {setLang && (
+            <div className="hf-lang-toggle" role="group" aria-label="Language">
+              <button type="button" className={`hf-lang-btn ${lang === "pt" ? "active" : ""}`} onClick={() => setLang("pt")} aria-pressed={lang === "pt"}>pt</button>
+              <span className="hf-lang-sep">/</span>
+              <button type="button" className={`hf-lang-btn ${lang === "en" ? "active" : ""}`} onClick={() => setLang("en")} aria-pressed={lang === "en"}>en</button>
+            </div>
+          )}
           <button className="hf-btn hf-btn-primary" onClick={() => onScrollTo("cta")}>{c.nav.waitlist}</button>
         </div>
       </div>
@@ -909,7 +1052,10 @@ function SliceSection({ lang }) {
         <div className="hf-product-head">
           <div className="hf-product-head-main">
             <span className="hf-product-tag-pill">{p.tag}</span>
-            <h2 className="hf-product-name">{p.name}</h2>
+            <div className="hf-product-name-row">
+              <div className="hf-product-icon" aria-hidden="true">S</div>
+              <h2 className="hf-product-name">{p.name}</h2>
+            </div>
             <p className="hf-product-headline-big hf-grad-text">{p.headline}</p>
             <ul className="hf-product-bullets">
               {p.bullets.map((b, i) => (
@@ -1028,7 +1174,10 @@ function BakingSection({ lang }) {
         <div className="hf-product-head">
           <div className="hf-product-head-main">
             <span className="hf-product-tag-pill is-baking">{p.tag}</span>
-            <h2 className="hf-product-name">{p.name}</h2>
+            <div className="hf-product-name-row">
+              <div className="hf-product-icon is-baking" aria-hidden="true">B</div>
+              <h2 className="hf-product-name">{p.name}</h2>
+            </div>
             <p className="hf-product-headline-big hf-grad-text">{p.headline}</p>
             <ul className="hf-product-bullets">
               {p.bullets.map((b, i) => (
@@ -1157,13 +1306,11 @@ function FAQHi({ lang }) {
 // ── Final CTA ─────────────────────────────────────────────────────────────────
 function FinalCTAHi({ lang }) {
   const c = COPY[lang];
+  const t = c.cta || {};
   const [role, setRole] = React.useState("listener");
   const [email, setEmail] = React.useState("");
   const [status, setStatus] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
-  const roles = { listener: "ouvinte", artist: "artista" };
-  const placeholder = { listener: "seu melhor e-mail", artist: "seu e-mail de artista" };
-  const ctaLabel = { listener: "quero entrar", artist: "falar com vocês" };
 
   async function submit(e) {
     e.preventDefault();
@@ -1179,17 +1326,12 @@ function FinalCTAHi({ lang }) {
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setEmail("");
-        setStatus({
-          kind: "ok",
-          msg: data.duplicate
-            ? "Já te temos por aqui — a gente avisa quando sua vaga chegar."
-            : "Inscrição recebida! A gente avisa quando sua vaga chegar.",
-        });
+        setStatus({ kind: "ok", msg: data.duplicate ? t.statusDup : t.statusOk });
       } else {
-        setStatus({ kind: "err", msg: data.error || "Não rolou. Tente de novo em alguns segundos." });
+        setStatus({ kind: "err", msg: data.error || t.statusErr });
       }
     } catch (err) {
-      setStatus({ kind: "err", msg: "Erro de conexão. Tente de novo." });
+      setStatus({ kind: "err", msg: t.statusConnErr });
     }
     setBusy(false);
   }
@@ -1203,18 +1345,18 @@ function FinalCTAHi({ lang }) {
           <p className="hf-cta-sub">{c.finalSub}</p>
           <div className="hf-cta-card">
             <div className="hf-cta-role">
-              <span className="hf-cta-role-label">Eu sou</span>
+              <span className="hf-cta-role-label">{t.roleLabel}</span>
               <div className="hf-tabs hf-tabs-inline" role="tablist">
-                <button role="tab" aria-selected={role === "listener"} className={`hf-tab ${role === "listener" ? "active" : ""}`} onClick={() => setRole("listener")}><Icon name="headphones" size={14}/> {roles.listener}</button>
-                <button role="tab" aria-selected={role === "artist"} className={`hf-tab ${role === "artist" ? "active" : ""}`} onClick={() => setRole("artist")}><Icon name="mic" size={14}/> {roles.artist}</button>
+                <button role="tab" aria-selected={role === "listener"} className={`hf-tab ${role === "listener" ? "active" : ""}`} onClick={() => setRole("listener")}><Icon name="headphones" size={14}/> {t.roles && t.roles.listener}</button>
+                <button role="tab" aria-selected={role === "artist"} className={`hf-tab ${role === "artist" ? "active" : ""}`} onClick={() => setRole("artist")}><Icon name="mic" size={14}/> {t.roles && t.roles.artist}</button>
               </div>
             </div>
             <form className="hf-cta-form" onSubmit={submit}>
-              <input className="hf-cta-input" type="email" placeholder={placeholder[role]} value={email} onChange={e => setEmail(e.target.value)} required disabled={busy}/>
-              <button type="submit" className="hf-btn hf-btn-primary" disabled={busy}>{busy ? "enviando…" : ctaLabel[role]} {!busy && <Icon name="arrow-right" size={16}/>}</button>
+              <input className="hf-cta-input" type="email" placeholder={t.placeholder && t.placeholder[role]} value={email} onChange={e => setEmail(e.target.value)} required disabled={busy}/>
+              <button type="submit" className="hf-btn hf-btn-primary" disabled={busy}>{busy ? t.submitting : (t.ctaLabel && t.ctaLabel[role])} {!busy && <Icon name="arrow-right" size={16}/>}</button>
             </form>
             {status && <div className={`hf-cta-status hf-cta-status-${status.kind}`}>{status.msg}</div>}
-            <div className="hf-cta-fineprint">Sem spam. A gente avisa quando sua vaga chegar.</div>
+            <div className="hf-cta-fineprint">{t.fineprint}</div>
           </div>
         </div>
       </div>
@@ -1315,9 +1457,30 @@ function Connector() {
 }
 
 // ── App ───────────────────────────────────────────────────────────────────────
+const LANG_KEY = "musicake_lang";
+function detectInitialLang() {
+  if (typeof window === "undefined") return "pt";
+  const url = new URLSearchParams(window.location.search).get("lang");
+  if (url === "pt" || url === "en") return url;
+  const stored = localStorage.getItem(LANG_KEY);
+  if (stored === "pt" || stored === "en") return stored;
+  const meta = COPY._meta && COPY._meta.defaultLang;
+  const nav = (navigator.language || "").toLowerCase();
+  if (nav.startsWith("pt")) return "pt";
+  if (nav.startsWith("en")) return "en";
+  return meta === "en" ? "en" : "pt";
+}
 function App() {
-  const lang = "pt";
-  const sections = (COPY.pt._meta && COPY.pt._meta.sections) || {};
+  const [lang, setLangState] = React.useState(detectInitialLang);
+  const setLang = (next) => {
+    if (next !== "pt" && next !== "en") return;
+    localStorage.setItem(LANG_KEY, next);
+    setLangState(next);
+  };
+  React.useEffect(() => {
+    document.documentElement.lang = lang === "en" ? "en" : "pt-BR";
+  }, [lang]);
+  const sections = (COPY._meta && COPY._meta.sections) || {};
   const show = (key) => sections[key] !== false;
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -1325,7 +1488,7 @@ function App() {
   };
   return (
     <div>
-      <NavHi lang={lang} onScrollTo={scrollTo}/>
+      <NavHi lang={lang} setLang={setLang} onScrollTo={scrollTo}/>
       <HeroHi lang={lang} onScrollTo={scrollTo}/>
       {show("problem") && <ProblemSection lang={lang} contentKey="problem"/>}
       {show("problem") && show("slice") && <Connector/>}
@@ -1349,7 +1512,14 @@ function App() {
     const res = await fetch("content.json", { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
-      Object.assign(COPY.pt, data);
+      if (data._meta) COPY._meta = data._meta;
+      if (data.pt) Object.assign(COPY.pt, data.pt);
+      if (data.en) Object.assign(COPY.en, data.en);
+      // Backwards-compat: legacy content.json with content at the top level (no pt/en wrapper)
+      if (!data.pt && !data.en && (data.nav || data.heroHooks)) {
+        const { _meta, ...rest } = data;
+        Object.assign(COPY.pt, rest);
+      }
     }
   } catch (err) {
     console.warn("content.json load failed, using defaults:", err);

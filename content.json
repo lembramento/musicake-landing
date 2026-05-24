@@ -1,7 +1,8 @@
 {
   "_meta": {
-    "version": 1,
+    "version": 2,
     "logo": "musicake_wt.png",
+    "defaultLang": "pt",
     "sections": {
       "problem": true,
       "slice": true,
@@ -14,205 +15,270 @@
       "finalCta": true
     }
   },
-  "problem": {
-    "titleStart": "Nem todo mundo ouve música",
-    "titleHighlight": "no mesmo lugar.",
-    "body": "Você já mandou uma música incrível para alguém e ficou no vácuo? Às vezes, o problema não é a música — é o link.",
-    "chat": {
-      "songTitle": "Quase manhã",
-      "songArtist": "Júlia Bandeira",
-      "songHost": "open.spotify.com",
-      "coverTitle": "QUASE MANHÃ",
-      "coverArtist": "JÚLIA BANDEIRA",
-      "shareCaption": "escuta essa 🎶",
-      "shareTime": "14:24",
-      "reply": "mas eu uso youtube music 😕",
-      "replyTime": "14:25"
-    }
-  },
-  "bakingProblem": {
-    "titleStart": "Dê adeus à chatice do pré-save.",
-    "titleHighlight": "",
-    "body": "Lançamentos deveriam aproximar artistas e fãs — não colocar etapas no caminho.",
-    "image": "baking-problem.svg",
-    "chat": {
-      "songTitle": "Maré viva (pré-save)",
-      "songArtist": "Volmério Costa",
-      "songHost": "presave.app",
-      "coverTitle": "MARÉ VIVA",
-      "coverArtist": "VOLMÉRIO COSTA",
-      "shareCaption": "sai sexta! salva aí 🙏",
-      "shareTime": "10:12",
-      "reply": "tem que logar de novo? 😩",
-      "replyTime": "10:14"
-    }
-  },
-  "nav": {
-    "listen": "para ouvintes",
-    "artists": "para artistas",
-    "waitlist": "entrar na lista"
-  },
-  "heroHooks": [
-    {
-      "kicker": "",
-      "title": [
-        "Música boa",
-        "merece ser",
-        "compartilhada"
-      ],
-      "sub": "Musicake ajuda artistas e ouvintes a compartilhar músicas de forma mais simples, universal e significativa."
-    }
-  ],
-  "ctaPrimary": "entrar na lista de espera",
-  "ctaSecondary": "ver como funciona",
-  "baking": {
-    "name": "Baking",
-    "tag": "para artistas",
-    "headline": "O lançamento que seus fãs merecem.",
-    "bullets": [
-      "Notificação no dia do lançamento",
-      "Página personalizada do artista",
-      "Coleta de e-mail e WhatsApp",
-      "Release com contexto e bastidores"
-    ]
-  },
-  "slice": {
-    "name": "Slice",
-    "tag": "para todo mundo",
-    "headline": "Compartilhe uma música. Em qualquer plataforma.",
-    "bullets": [
-      "Funciona em Spotify, Apple, Deezer, YouTube…",
-      "Um único link, todas as plataformas",
-      "Sem login, sem fricção",
-      "Preview no próprio link"
-    ]
-  },
-  "audienceTitle": [
-    "Feito para quem",
-    "ama música",
-    "de verdade."
-  ],
-  "audiences": [
-    {
-      "name": "Os melhores ouvintes",
-      "desc": "Aqueles que mandam música pros amigos sem se importar com a plataforma de cada um."
+  "pt": {
+    "nav": {
+      "listen": "para ouvintes",
+      "artists": "para artistas",
+      "waitlist": "entrar na lista"
     },
-    {
-      "name": "Artistas independentes",
-      "desc": "Que querem lançar com menos fricção e mais conexão direta com o público."
-    },
-    {
-      "name": "Curadores e criadores",
-      "desc": "Que constroem playlists, posts e recomendações que precisam viver fora da bolha de uma plataforma."
-    },
-    {
-      "name": "Blogs, selos e comunidades",
-      "desc": "Que querem páginas musicais mais ricas, bonitas e úteis pra sua audiência."
-    }
-  ],
-  "howSliceKicker": "",
-  "howSliceTitle": "Como compartilhar uma música em 3 passos",
-  "howSlice": [
-    {
-      "n": 1,
-      "label": "Aperte o botão de compartilhar em qualquer plataforma de música"
-    },
-    {
-      "n": 2,
-      "label": "Selecione o app Musicake na lista do seu dispositivo"
-    },
-    {
-      "n": 3,
-      "label": "Musicake cria automaticamente um link com acesso à música em todas as plataformas"
-    }
-  ],
-  "howSliceDesktop": [
-    {
-      "n": 1,
-      "label": "Instale a extensão Musicake no seu navegador. Funciona com Chrome, Arc, Edge e Firefox."
-    },
-    {
-      "n": 2,
-      "label": "Ouça música em qualquer plataforma. O ícone da Musicake aparece direto na interface."
-    },
-    {
-      "n": 3,
-      "label": "Clique no ícone e a Musicake gera um link universal pronto pra enviar."
-    }
-  ],
-  "howSliceTabs": {
-    "mobile": "📱 no celular",
-    "desktop": "💻 no navegador"
-  },
-  "howBakingKicker": "",
-  "howBakingTitle": "Como lançar uma música em 4 movimentos.",
-  "howBaking": [
-    {
-      "n": 1,
-      "label": "Crie a sua página de lançamento com imagem, release e link da música.\nEste será o seu 'Plate' no Musicake."
-    },
-    {
-      "n": 2,
-      "label": "Envie pra todo mundo. Quem recebe só precisa deixar e-mail ou WhatsApp. Sem login, sem chatice."
-    },
-    {
-      "n": 3,
-      "label": "Seus fãs recebem uma notificação no dia do lançamento com um link para seu Plate."
-    },
-    {
-      "n": 4,
-      "label": "Seu Plate personalizado cria o universo ideal para sua música, com links para audição em todas as plataformas e recursos como área interativa para os fãs."
-    }
-  ],
-  "manifestoBlock": {
-    "kicker": "nossa crença",
-    "title": [
-      "A música",
-      "merece",
-      "mais."
+    "heroHooks": [
+      {
+        "kicker": "",
+        "title": ["Música boa", "merece ser", "compartilhada"],
+        "sub": "Musicake ajuda artistas e ouvintes a compartilhar músicas de forma mais simples, universal e significativa."
+      }
     ],
-    "body": "Musicake existe para devolver à música o prazer de ser compartilhada.\nPara que cada descoberta carregue contexto, afeto e intenção.\nE para que ouvir uma música volte a ser também uma forma de encontro."
+    "problem": {
+      "titleStart": "Nem todo mundo ouve música",
+      "titleHighlight": "no mesmo lugar.",
+      "body": "Você já mandou uma música incrível para alguém e ficou no vácuo? Às vezes, o problema não é a música — é o link.",
+      "chat": {
+        "songTitle": "Quase manhã",
+        "songArtist": "Júlia Bandeira",
+        "songHost": "open.spotify.com",
+        "coverTitle": "QUASE MANHÃ",
+        "coverArtist": "JÚLIA BANDEIRA",
+        "shareCaption": "escuta essa 🎶",
+        "shareTime": "14:24",
+        "reply": "mas eu uso youtube music 😕",
+        "replyTime": "14:25"
+      }
+    },
+    "bakingProblem": {
+      "titleStart": "Dê adeus à chatice do pré-save.",
+      "titleHighlight": "",
+      "body": "Lançamentos deveriam aproximar artistas e fãs — não colocar etapas no caminho.",
+      "image": "baking-problem.svg",
+      "chat": {
+        "songTitle": "Maré viva (pré-save)",
+        "songArtist": "Volmério Costa",
+        "songHost": "presave.app",
+        "coverTitle": "MARÉ VIVA",
+        "coverArtist": "VOLMÉRIO COSTA",
+        "shareCaption": "sai sexta! salva aí 🙏",
+        "shareTime": "10:12",
+        "reply": "tem que logar de novo? 😩",
+        "replyTime": "10:14"
+      }
+    },
+    "ctaPrimary": "entrar na lista de espera",
+    "ctaSecondary": "ver como funciona",
+    "baking": {
+      "name": "Baking",
+      "tag": "para artistas",
+      "headline": "O lançamento que seus fãs merecem.",
+      "bullets": [
+        "Notificação no dia do lançamento",
+        "Página personalizada do artista",
+        "Coleta de e-mail e WhatsApp",
+        "Release com contexto e bastidores"
+      ]
+    },
+    "slice": {
+      "name": "Slice",
+      "tag": "para todo mundo",
+      "headline": "Compartilhe uma música. Em qualquer plataforma.",
+      "bullets": [
+        "Funciona em Spotify, Apple, Deezer, YouTube…",
+        "Um único link, todas as plataformas",
+        "Sem login, sem fricção",
+        "Preview no próprio link"
+      ]
+    },
+    "audienceTitle": ["Feito para quem", "ama música", "de verdade."],
+    "audiences": [
+      { "name": "Os melhores ouvintes", "desc": "Aqueles que mandam música pros amigos sem se importar com a plataforma de cada um." },
+      { "name": "Artistas independentes", "desc": "Que querem lançar com menos fricção e mais conexão direta com o público." },
+      { "name": "Curadores e criadores", "desc": "Que constroem playlists, posts e recomendações que precisam viver fora da bolha de uma plataforma." },
+      { "name": "Blogs, selos e comunidades", "desc": "Que querem páginas musicais mais ricas, bonitas e úteis pra sua audiência." }
+    ],
+    "howSliceKicker": "",
+    "howSliceTitle": "Como compartilhar uma música em 3 passos",
+    "howSlice": [
+      { "n": 1, "label": "Aperte o botão de compartilhar em qualquer plataforma de música" },
+      { "n": 2, "label": "Selecione o app Musicake na lista do seu dispositivo" },
+      { "n": 3, "label": "Musicake cria automaticamente um link com acesso à música em todas as plataformas" }
+    ],
+    "howSliceDesktop": [
+      { "n": 1, "label": "Instale a extensão Musicake no seu navegador. Funciona com Chrome, Arc, Edge e Firefox." },
+      { "n": 2, "label": "Ouça música em qualquer plataforma. O ícone da Musicake aparece direto na interface." },
+      { "n": 3, "label": "Clique no ícone e a Musicake gera um link universal pronto pra enviar." }
+    ],
+    "howSliceTabs": { "mobile": "📱 no celular", "desktop": "💻 no navegador" },
+    "howBakingKicker": "",
+    "howBakingTitle": "Como lançar uma música em 4 movimentos.",
+    "howBaking": [
+      { "n": 1, "label": "Crie a sua página de lançamento com imagem, release e link da música.\nEste será o seu 'Plate' no Musicake." },
+      { "n": 2, "label": "Envie pra todo mundo. Quem recebe só precisa deixar e-mail ou WhatsApp. Sem login, sem chatice." },
+      { "n": 3, "label": "Seus fãs recebem uma notificação no dia do lançamento com um link para seu Plate." },
+      { "n": 4, "label": "Seu Plate personalizado cria o universo ideal para sua música, com links para audição em todas as plataformas e recursos como área interativa para os fãs." }
+    ],
+    "manifestoBlock": {
+      "kicker": "nossa crença",
+      "title": ["A música", "merece", "mais."],
+      "body": "Musicake existe para devolver à música o prazer de ser compartilhada.\nPara que cada descoberta carregue contexto, afeto e intenção.\nE para que ouvir uma música volte a ser também uma forma de encontro."
+    },
+    "finalKicker": "entre primeiro",
+    "finalTitle": ["Vamos compartilhar", "música de", "um jeito novo."],
+    "finalSub": "Estamos em fase de testes com as primeiras pessoas — ouvintes, artistas, curadores e selos. Deixe seu e-mail e te avisamos quando for sua vez.",
+    "faqKicker": "perguntas que ouvimos sempre",
+    "faq": [
+      { "q": "Preciso pagar pra usar?", "a": "O Slice será gratuito pra ouvintes. Pra artistas, teremos um plano gratuito generoso e um plano pago com mais recursos de lançamento." },
+      { "q": "Funciona com qualquer plataforma?", "a": "Sim — Spotify, Apple Music, Deezer, YouTube Music, Tidal e outras principais. Vamos crescendo a lista." },
+      { "q": "Como vocês ganham dinheiro?", "a": "Com planos pra artistas e selos. Nunca vendendo dado de ouvinte, nunca prendendo música atrás de paywall." },
+      { "q": "Quando lança?", "a": "Estamos em beta fechado em 2026. Entrando na lista, você é avisado primeiro." }
+    ],
+    "testimonialsKicker": "primeiras vozes",
+    "testimonials": [
+      { "quote": "Finalmente consigo mandar uma música pro meu pai sem perguntar 'você usa qual?'", "author": "Marina · ouvinte beta" },
+      { "quote": "É a primeira ferramenta de lançamento que parece pensada pelo artista, não pela plataforma.", "author": "Léo Brandt · produtor" },
+      { "quote": "Meu blog precisa disso. Linkar uma música é sempre um pesadelo.", "author": "Coletivo Pulso · curadoria" }
+    ],
+    "cta": {
+      "roleLabel": "Eu sou",
+      "roles": { "listener": "ouvinte", "artist": "artista" },
+      "placeholder": { "listener": "seu melhor e-mail", "artist": "seu e-mail de artista" },
+      "ctaLabel": { "listener": "quero entrar", "artist": "falar com vocês" },
+      "fineprint": "Sem spam. A gente avisa quando sua vaga chegar.",
+      "submitting": "enviando…",
+      "statusOk": "Inscrição recebida! A gente avisa quando sua vaga chegar.",
+      "statusDup": "Já te temos por aqui — a gente avisa quando sua vaga chegar.",
+      "statusErr": "Não rolou. Tente de novo em alguns segundos.",
+      "statusConnErr": "Erro de conexão. Tente de novo."
+    },
+    "footer": "Musicake: todo mundo merece uma fatia · 2026"
   },
-  "finalKicker": "entre primeiro",
-  "finalTitle": [
-    "Vamos compartilhar",
-    "música de",
-    "um jeito novo."
-  ],
-  "finalSub": "Estamos em fase de testes com as primeiras pessoas — ouvintes, artistas, curadores e selos. Deixe seu e-mail e te avisamos quando for sua vez.",
-  "faqKicker": "perguntas que ouvimos sempre",
-  "faq": [
-    {
-      "q": "Preciso pagar pra usar?",
-      "a": "O Slice será gratuito pra ouvintes. Pra artistas, teremos um plano gratuito generoso e um plano pago com mais recursos de lançamento."
+  "en": {
+    "nav": {
+      "listen": "for listeners",
+      "artists": "for artists",
+      "waitlist": "join the waitlist"
     },
-    {
-      "q": "Funciona com qualquer plataforma?",
-      "a": "Sim — Spotify, Apple Music, Deezer, YouTube Music, Tidal e outras principais. Vamos crescendo a lista."
+    "heroHooks": [
+      {
+        "kicker": "",
+        "title": ["Good music", "deserves to be", "shared"],
+        "sub": "Musicake helps artists and listeners share music in a simpler, more universal and meaningful way."
+      }
+    ],
+    "problem": {
+      "titleStart": "Not everyone listens to music",
+      "titleHighlight": "in the same place.",
+      "body": "Ever sent someone an amazing track and got nothing back? Sometimes it's not the song — it's the link.",
+      "chat": {
+        "songTitle": "Quase manhã",
+        "songArtist": "Júlia Bandeira",
+        "songHost": "open.spotify.com",
+        "coverTitle": "QUASE MANHÃ",
+        "coverArtist": "JÚLIA BANDEIRA",
+        "shareCaption": "listen to this 🎶",
+        "shareTime": "14:24",
+        "reply": "but I use youtube music 😕",
+        "replyTime": "14:25"
+      }
     },
-    {
-      "q": "Como vocês ganham dinheiro?",
-      "a": "Com planos pra artistas e selos. Nunca vendendo dado de ouvinte, nunca prendendo música atrás de paywall."
+    "bakingProblem": {
+      "titleStart": "Say goodbye to pre-save friction.",
+      "titleHighlight": "",
+      "body": "Releases should bring artists and fans closer — not put steps in the way.",
+      "image": "baking-problem.svg",
+      "chat": {
+        "songTitle": "Maré viva (pre-save)",
+        "songArtist": "Volmério Costa",
+        "songHost": "presave.app",
+        "coverTitle": "MARÉ VIVA",
+        "coverArtist": "VOLMÉRIO COSTA",
+        "shareCaption": "drops Friday! save it 🙏",
+        "shareTime": "10:12",
+        "reply": "do I have to log in again? 😩",
+        "replyTime": "10:14"
+      }
     },
-    {
-      "q": "Quando lança?",
-      "a": "Estamos em beta fechado em 2026. Entrando na lista, você é avisado primeiro."
-    }
-  ],
-  "testimonialsKicker": "primeiras vozes",
-  "testimonials": [
-    {
-      "quote": "Finalmente consigo mandar uma música pro meu pai sem perguntar 'você usa qual?'",
-      "author": "Marina · ouvinte beta"
+    "ctaPrimary": "join the waitlist",
+    "ctaSecondary": "see how it works",
+    "baking": {
+      "name": "Baking",
+      "tag": "for artists",
+      "headline": "The release your fans deserve.",
+      "bullets": [
+        "Launch-day notification",
+        "Personalized artist page",
+        "Email and WhatsApp collection",
+        "Release with context and behind-the-scenes"
+      ]
     },
-    {
-      "quote": "É a primeira ferramenta de lançamento que parece pensada pelo artista, não pela plataforma.",
-      "author": "Léo Brandt · produtor"
+    "slice": {
+      "name": "Slice",
+      "tag": "for everyone",
+      "headline": "Share a song. On any platform.",
+      "bullets": [
+        "Works on Spotify, Apple, Deezer, YouTube…",
+        "One link, every platform",
+        "No login, no friction",
+        "Preview right in the link"
+      ]
     },
-    {
-      "quote": "Meu blog precisa disso. Linkar uma música é sempre um pesadelo.",
-      "author": "Coletivo Pulso · curadoria"
-    }
-  ],
-  "footer": "Musicake: todo mundo merece uma fatia · 2026"
+    "audienceTitle": ["Made for those who", "love music", "for real."],
+    "audiences": [
+      { "name": "The best listeners", "desc": "Those who send music to friends without caring which platform anyone uses." },
+      { "name": "Independent artists", "desc": "Who want to release with less friction and more direct connection to their audience." },
+      { "name": "Curators and creators", "desc": "Who build playlists, posts and recommendations that need to live outside any single platform's bubble." },
+      { "name": "Blogs, labels and communities", "desc": "Who want richer, prettier, more useful music pages for their audience." }
+    ],
+    "howSliceKicker": "",
+    "howSliceTitle": "How to share a song in 3 steps",
+    "howSlice": [
+      { "n": 1, "label": "Tap share on any music platform" },
+      { "n": 2, "label": "Pick the Musicake app from your device's list" },
+      { "n": 3, "label": "Musicake automatically creates a link that opens the song on every platform" }
+    ],
+    "howSliceDesktop": [
+      { "n": 1, "label": "Install the Musicake extension in your browser. Works with Chrome, Arc, Edge and Firefox." },
+      { "n": 2, "label": "Listen to music on any platform. The Musicake icon shows up right in the interface." },
+      { "n": 3, "label": "Click the icon and Musicake generates a universal link, ready to send." }
+    ],
+    "howSliceTabs": { "mobile": "📱 on mobile", "desktop": "💻 in the browser" },
+    "howBakingKicker": "",
+    "howBakingTitle": "How to release a song in 4 movements.",
+    "howBaking": [
+      { "n": 1, "label": "Create your release page with image, release notes and a music link.\nThis is your 'Plate' on Musicake." },
+      { "n": 2, "label": "Send it everywhere. People only need to leave their email or WhatsApp. No login, no hassle." },
+      { "n": 3, "label": "Your fans get a notification on launch day with a link to your Plate." },
+      { "n": 4, "label": "Your personalized Plate creates the ideal universe for your song, with links to listen on every platform and features like a fan interaction area." }
+    ],
+    "manifestoBlock": {
+      "kicker": "our belief",
+      "title": ["Music", "deserves", "more."],
+      "body": "Musicake exists to give music back the joy of being shared.\nSo every discovery carries context, affection and intention.\nAnd so listening to a song becomes, again, a form of encounter."
+    },
+    "finalKicker": "be first",
+    "finalTitle": ["Let's share", "music in a", "new way."],
+    "finalSub": "We're testing with the first people — listeners, artists, curators and labels. Leave your email and we'll let you know when it's your turn.",
+    "faqKicker": "questions we hear often",
+    "faq": [
+      { "q": "Do I need to pay to use it?", "a": "Slice will be free for listeners. For artists, we'll have a generous free plan and a paid plan with more release features." },
+      { "q": "Does it work with any platform?", "a": "Yes — Spotify, Apple Music, Deezer, YouTube Music, Tidal and other majors. The list keeps growing." },
+      { "q": "How do you make money?", "a": "With plans for artists and labels. Never by selling listener data, never by locking music behind a paywall." },
+      { "q": "When does it launch?", "a": "We're in closed beta in 2026. Join the waitlist and you'll hear first." }
+    ],
+    "testimonialsKicker": "first voices",
+    "testimonials": [
+      { "quote": "Finally I can send a song to my dad without asking 'which one do you use?'", "author": "Marina · beta listener" },
+      { "quote": "It's the first release tool that feels designed by an artist, not by a platform.", "author": "Léo Brandt · producer" },
+      { "quote": "My blog needs this. Linking a song is always a nightmare.", "author": "Coletivo Pulso · curators" }
+    ],
+    "cta": {
+      "roleLabel": "I'm",
+      "roles": { "listener": "a listener", "artist": "an artist" },
+      "placeholder": { "listener": "your best email", "artist": "your artist email" },
+      "ctaLabel": { "listener": "I want in", "artist": "let's talk" },
+      "fineprint": "No spam. We'll let you know when your spot is up.",
+      "submitting": "sending…",
+      "statusOk": "You're in! We'll let you know when your spot is up.",
+      "statusDup": "Already got you — we'll let you know when your spot is up.",
+      "statusErr": "Didn't work. Try again in a few seconds.",
+      "statusConnErr": "Connection error. Try again."
+    },
+    "footer": "Musicake: everyone deserves a slice · 2026"
+  }
 }
